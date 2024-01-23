@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path = "/user")
 public class UserController {
     @Autowired
-    UserService service;
+    private UserService service;
     @GetMapping("")
     public ResponseEntity<RepositoryObject> getAllUser(){
         return service.getAllUser();
@@ -27,6 +27,7 @@ public class UserController {
     public ResponseEntity<RepositoryObject> insertUser(@RequestBody User user){
         return service.insertUser(user);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<RepositoryObject> deleteUserById(@PathVariable long id) {

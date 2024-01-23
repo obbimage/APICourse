@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 public interface UserService {
     ResponseEntity<RepositoryObject> getAllUser();
     ResponseEntity<RepositoryObject> getUserById(long id);
+    ResponseEntity<RepositoryObject> getUserByName(String userName);
     ResponseEntity<RepositoryObject> deleteUserById(long id);
     ResponseEntity<RepositoryObject> insertUser(User user);
 

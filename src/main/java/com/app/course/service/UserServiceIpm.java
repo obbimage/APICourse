@@ -50,6 +50,18 @@ public class UserServiceIpm implements UserService {
                 );
     }
 
+    @Override
+    public ResponseEntity<RepositoryObject> getUserByName(String userName) {
+        User user = repository.findByUserName(userName);
+        return user != null ?
+                ResponseEntity.status(HttpStatus.OK).body(
+                        new RepositoryObject("ok", "query user successfully", user)
+                ) :
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                        new RepositoryObject("failed", "cant not found with user=" + userName , "")
+                );
+    }
+
     /*
      * @AUTHOR: SINH TIEN
      * @SINCE: 8/27/2023 1:51 PM
@@ -82,8 +94,9 @@ public class UserServiceIpm implements UserService {
      * */
     @Override
     public ResponseEntity<RepositoryObject> insertUser(User user) {
-        List<User> users = repository.findByUserName(user.getUserName().trim());
-        return users.isEmpty() ?
+        User users = repository.findByUserName(user.getUserName().trim());
+        // if account not exist then insert
+        return users == null ?
                 ResponseEntity.status(HttpStatus.OK).body(
                         new RepositoryObject("ok", "query user successfully", repository.save(user))
                 ) :
