@@ -25,7 +25,7 @@ public class User implements Serializable {
     @Column(unique = true)
     private String userName;
     @Column(nullable = false)
-    private String passWorld;
+    private String passWord;
     private String firstName;
     private String lastName;
     private String avatar;
@@ -37,11 +37,11 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Educator educator, Student student, String userName, String passWorld, String firstName, String lastName, String avatar, String role, String email, String phone, String address) {
+    public User(Educator educator, Student student, String userName, String passWord, String firstName, String lastName, String avatar, String role, String email, String phone, String address) {
         this.educator = educator;
         this.student = student;
         this.userName = userName;
-        this.passWorld = passWorld;
+        this.passWord = passWord;
         this.firstName = firstName;
         this.lastName = lastName;
         this.avatar = avatar;
@@ -84,12 +84,12 @@ public class User implements Serializable {
         this.userName = userName;
     }
 
-    public String getPassWorld() {
-        return passWorld;
+    public String getPassWord() {
+        return passWord;
     }
 
-    public void setPassWorld(String passWorld) {
-        this.passWorld = passWorld;
+    public void setPassWord(String passWord) {
+        this.passWord = passWord;
     }
 
     public String getRole() {

@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -139,7 +138,7 @@ public class UserServiceIpm implements UserService {
         try {
             // update from new user to old user, return if user cant not found
             User updateUser = repository.findById(id).map(user -> {
-                user.setPassWorld(newUser.getPassWorld());
+                user.setPassWord(newUser.getPassWord());
                 return user;
             }).orElse(null);
 

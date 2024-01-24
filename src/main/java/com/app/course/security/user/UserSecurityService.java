@@ -31,8 +31,8 @@ public class UserSecurityService implements UserDetailsService {
 
     public ResponseEntity<RepositoryObject> register(User userRegister){
         // endcode passs
-        String password = userRegister.getPassWorld();
-        userRegister.setPassWorld(SecurityConfig.passwordEncoder().encode(password));
+        String password = userRegister.getPassWord();
+        userRegister.setPassWord(SecurityConfig.passwordEncoder().encode(password));
 
         return userService.insertUser(userRegister);
     }

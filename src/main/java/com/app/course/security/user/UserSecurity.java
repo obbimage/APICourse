@@ -1,7 +1,6 @@
 package com.app.course.security.user;
 
 import com.app.course.models.User;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,14 +19,13 @@ public class UserSecurity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("USER"));
+        String role = user.getRole();
+        return Collections.singleton(new SimpleGrantedAuthority(role));
     }
-
-
 
     @Override
     public String getPassword() {
-        return user.getPassWorld();
+        return user.getPassWord();
     }
 
     @Override

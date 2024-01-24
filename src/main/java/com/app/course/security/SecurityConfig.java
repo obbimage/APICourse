@@ -1,6 +1,7 @@
 package com.app.course.security;
 
 
+import com.app.course.security.jwt.JwtAuthenticationFilter;
 import com.app.course.security.user.UserSecurityService;
 import jakarta.servlet.DispatcherType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,13 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static jakarta.servlet.DispatcherType.ERROR;
 import static jakarta.servlet.DispatcherType.FORWARD;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 public class SecurityConfig  {
 
     @Autowired
@@ -65,18 +67,25 @@ public class SecurityConfig  {
     }
 
     @Bean
+    public JwtAuthenticationFilter jwtAuthenticationFilter(){
+        return new JwtAuthenticationFilter();
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
-                        .requestMatchers("/auth","/error").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/register").permitAll()
+                        .requestMatchers("/error","/login").permitAll()
+                        .requestMatchers("/auth").hasAuthority("USER")
+                        .requestMatchers(HttpMethod.POST,"/register","/login").permitAll()
                         .anyRequest().authenticated()
                 )
-                .httpBasic(Customizer.withDefaults())  // đăng nhập với http
-                .formLogin(Customizer.withDefaults()); // Đăng nhập với form
+                .httpBasic(Customizer.withDefaults()) ; // đăng nhập với http
+//                .formLogin(Customizer.withDefaults()); // Đăng nhập với form
 
+        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
