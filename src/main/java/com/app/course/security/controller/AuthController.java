@@ -34,13 +34,14 @@ public class AuthController {
                             loginRequest.password
                     )
             );
+
             // ...
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             String jwt = jwtTokenProvider.generateToken((UserSecurity) authentication.getPrincipal());
             return ResponseEntity.status(HttpStatus.OK).body(jwt);
         } catch (AuthenticationException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
 

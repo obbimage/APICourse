@@ -94,7 +94,7 @@ public class UserServiceIpm implements UserService {
     @Override
     public ResponseEntity<RepositoryObject> insertUser(User user) {
         User users = repository.findByUserName(user.getUserName().trim());
-        // if account not exist then insert
+        // if user not exist then insert
         return users == null ?
                 ResponseEntity.status(HttpStatus.OK).body(
                         new RepositoryObject("ok", "query user successfully", repository.save(user))

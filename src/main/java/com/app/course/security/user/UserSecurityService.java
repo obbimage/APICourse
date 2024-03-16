@@ -29,7 +29,7 @@ public class UserSecurityService implements UserDetailsService {
         return new UserSecurity(user);
     }
 
-    public ResponseEntity<RepositoryObject> register(User userRegister){
+    public ResponseEntity<RepositoryObject> registerEducator(User userRegister){
         // endcode passs
         String password = userRegister.getPassWord();
         userRegister.setPassWord(SecurityConfig.passwordEncoder().encode(password));

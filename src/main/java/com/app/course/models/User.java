@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -26,6 +27,14 @@ public class User implements Serializable {
     private String userName;
     @Column(nullable = false)
     private String passWord;
+
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+            name = "list_role_user",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_user_id")}
+    )
+    private Set<RoleUser> roleUsers = new HashSet<>();
     private String firstName;
     private String lastName;
     private String avatar;

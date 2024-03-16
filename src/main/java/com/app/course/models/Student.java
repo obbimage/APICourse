@@ -10,12 +10,12 @@ import java.util.Set;
 public class Student {
     /*  PRIMARY KEY  */
     @Id
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "account_id")
     private long id;
     @JsonIgnore
     @OneToOne
     @MapsId
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "account_id")
     private User user;
 
     @JsonIgnore

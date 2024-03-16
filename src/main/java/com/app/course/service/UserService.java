@@ -13,8 +13,8 @@ public interface UserService {
     ResponseEntity<RepositoryObject> deleteUserById(long id);
     ResponseEntity<RepositoryObject> insertUser(User user);
 
-    ResponseEntity<RepositoryObject> updateIfoUser(User user,long id);
-    ResponseEntity<RepositoryObject> updatePassUser(User user,long id);
-    ResponseEntity<RepositoryObject> updateAvatarUser(User user,long id);
+    ResponseEntity<RepositoryObject> updateIfoUser(User user, long id);
+    ResponseEntity<RepositoryObject> updatePassUser(User user, long id);
+    ResponseEntity<RepositoryObject> updateAvatarUser(User user, long id);
 
 }
