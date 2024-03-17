@@ -51,7 +51,7 @@ public class UserServiceIpm implements UserService {
 
     @Override
     public ResponseEntity<RepositoryObject> getUserByName(String userName) {
-        User user = repository.findByUserName(userName);
+        User user = repository.findByUsername(userName);
         return user != null ?
                 ResponseEntity.status(HttpStatus.OK).body(
                         new RepositoryObject("ok", "query user successfully", user)
@@ -93,7 +93,7 @@ public class UserServiceIpm implements UserService {
      * */
     @Override
     public ResponseEntity<RepositoryObject> insertUser(User user) {
-        User users = repository.findByUserName(user.getUserName().trim());
+        User users = repository.findByUsername(user.getUsername().trim());
         // if user not exist then insert
         return users == null ?
                 ResponseEntity.status(HttpStatus.OK).body(
@@ -138,7 +138,7 @@ public class UserServiceIpm implements UserService {
         try {
             // update from new user to old user, return if user cant not found
             User updateUser = repository.findById(id).map(user -> {
-                user.setPassWord(newUser.getPassWord());
+                user.setPassword(newUser.getPassword());
                 return user;
             }).orElse(null);
 

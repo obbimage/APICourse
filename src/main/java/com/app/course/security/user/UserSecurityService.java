@@ -22,17 +22,17 @@ public class UserSecurityService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username){
         // kiểm tra user có tồn tại hay không
-        User user = repository.findByUserName(username);
+        User user = repository.findByUsername(username);
         if(user == null){
             throw new UsernameNotFoundException(username);
         }
         return new UserSecurity(user);
     }
 
-    public ResponseEntity<RepositoryObject> registerEducator(User userRegister){
+    public ResponseEntity<RepositoryObject> register(User userRegister){
         // endcode passs
-        String password = userRegister.getPassWord();
-        userRegister.setPassWord(SecurityConfig.passwordEncoder().encode(password));
+        String password = userRegister.getPassword();
+        userRegister.setPassword(SecurityConfig.passwordEncoder().encode(password));
 
         return userService.insertUser(userRegister);
     }

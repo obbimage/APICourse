@@ -79,7 +79,7 @@ public class SecurityConfig  {
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
                         .requestMatchers("/error","/login").permitAll()
                         .requestMatchers("/auth").hasAuthority("USER")
-                        .requestMatchers(HttpMethod.POST,"/register","/login").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/register/**","/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults()) ; // đăng nhập với http

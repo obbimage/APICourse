@@ -24,9 +24,9 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Course> courses;
     @Column(unique = true)
-    private String userName;
+    private String username;
     @Column(nullable = false)
-    private String passWord;
+    private String password;
 
     @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(
@@ -38,6 +38,7 @@ public class User implements Serializable {
     private String firstName;
     private String lastName;
     private String avatar;
+    @Column(nullable = false)
     private String role;
     private String email;
     private String phone;
@@ -46,11 +47,11 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(Educator educator, Student student, String userName, String passWord, String firstName, String lastName, String avatar, String role, String email, String phone, String address) {
+    public User(Educator educator, Student student, String username, String password, String firstName, String lastName, String avatar, String role, String email, String phone, String address) {
         this.educator = educator;
         this.student = student;
-        this.userName = userName;
-        this.passWord = passWord;
+        this.username = username;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.avatar = avatar;
@@ -77,6 +78,14 @@ public class User implements Serializable {
         this.educator.setUser(this);
     }
 
+    public Set<RoleUser> getRoleUsers() {
+        return roleUsers;
+    }
+
+    public void setRoleUsers(Set<RoleUser> roleUsers) {
+        this.roleUsers = roleUsers;
+    }
+
     public Student getStudent() {
         return student;
     }
@@ -85,20 +94,20 @@ public class User implements Serializable {
         this.student = student;
         this.student.setUser(this);
     }
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getPassWord() {
-        return passWord;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getRole() {
