@@ -99,7 +99,8 @@ public class UserServiceIpm implements UserService {
                 ResponseEntity.status(HttpStatus.OK).body(
                         new RepositoryObject("ok", "query user successfully", repository.save(user))
                 ) :
-                ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                // status 409 -> xảy ra sung đột
+                ResponseEntity.status(HttpStatus.CONFLICT).body(
                         new RepositoryObject("failed", "use already taken ", "")
                 );
 

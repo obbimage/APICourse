@@ -15,23 +15,22 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
     public AuthController(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
 
     public ResponseEntity<?> login(LoginRequest loginRequest, String role) {
         try {
@@ -61,6 +60,7 @@ public class AuthController {
     @PostMapping("/educator")
     public ResponseEntity<?> educator(@RequestBody LoginRequest loginRequest) {
         return login(loginRequest, Constants.ROLE_EDUCATOR);
+//        return Response.result(HttpStatus.OK,Status.FAILED,AlertQuery.CANT_NOT_FOUND);
     }
 
     @PostMapping("/user")
