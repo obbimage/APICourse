@@ -21,6 +21,9 @@ public class Educator implements Serializable {
     public Educator() {
     }
 
+    public Educator(User user ){
+        setUser(user);
+    }
     public Educator(long id, String biography, String description, User user) {
         this.id = id;
         this.biography = biography;

@@ -16,7 +16,7 @@ import java.util.UUID;
 public class FileServiceIpm implements  FileService{
     @Value("${file.upload-path}")
     private String uploadPath;
-
+//    @Value("${file.download-url}")
     private String downloadUrl = "http://localhost:8080/files/";
     @Override
     public FileUploadResponse uploadFile(MultipartFile file) {

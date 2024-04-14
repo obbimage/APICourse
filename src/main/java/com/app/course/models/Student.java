@@ -31,6 +31,9 @@ public class Student {
     public Student() {
     }
 
+    public Student(User user){
+        setUser(user);
+    }
 
     public Student(User user, Set<Buy> buys, int level, String experience) {
         this.user = user;

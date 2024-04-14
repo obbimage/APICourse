@@ -2,11 +2,13 @@ package com.app.course.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+@AllArgsConstructor
 @Entity
 @Table(name = "user")
 public class User implements Serializable {
@@ -44,6 +46,11 @@ public class User implements Serializable {
     private String phone;
     private String address;
 
+    private String city;
+    private String country; // đất nước
+    private String zipCode; // mã bữu chính
+
+    private String zipCodeCity;
     public User() {
     }
 
@@ -61,6 +68,14 @@ public class User implements Serializable {
         this.address = address;
     }
 
+    public  void createEducator(){
+        Educator educator1  = new Educator(this);
+        setEducator(educator1);
+    }
+    public void createUser(){
+        Student student1 = new Student(this);
+        setStudent(student1);
+    }
     public long getId() {
         return id;
     }
@@ -172,6 +187,38 @@ public class User implements Serializable {
 
     public void setCourses(Set<Course> courses) {
         this.courses = courses;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getZipCodeCity() {
+        return zipCodeCity;
+    }
+
+    public void setZipCodeCity(String zipCodeCity) {
+        this.zipCodeCity = zipCodeCity;
     }
 
 }

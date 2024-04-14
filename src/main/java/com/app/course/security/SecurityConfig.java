@@ -82,7 +82,7 @@ public class SecurityConfig  {
 
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Collections.singletonList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT"));
         configuration.setAllowedHeaders(Arrays.asList("*")); // thêm Access-Control-Allow-Origin vào header
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
@@ -100,8 +100,9 @@ public class SecurityConfig  {
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
 //                                .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-                        .requestMatchers("/error","/user","/auth/**").permitAll()
+                        .requestMatchers("/error","/educator","/user/updateInfo/**","/auth/**","user/changePassword/**").permitAll()
                         .requestMatchers(HttpMethod.POST,"/register/**","/auth/**").permitAll()
+                                .requestMatchers("/files/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults()) ; // đăng nhập với http

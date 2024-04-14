@@ -1,19 +1,14 @@
 package com.app.course.security;
 
 import com.app.course.models.User;
-import com.app.course.security.user.UserSecurity;
 
-public class Payload {
+public class PayloadLogin {
 
     private User user;
     private String token;
 
-    public Payload(User user, String token) {
+    public PayloadLogin(User user, String token) {
         this.user = user;
-        this.token = token;
-    }
-    public Payload(UserSecurity userSecurity, String token) {
-        this.user = userSecurity.;
         this.token = token;
     }
 
@@ -23,5 +18,13 @@ public class Payload {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

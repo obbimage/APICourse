@@ -1,8 +1,10 @@
 package com.app.course.service;
 
+import com.app.course.config.AlertQuery;
 import com.app.course.models.User;
-import com.app.course.repository.RepositoryObject;
-import com.app.course.repository.UserRepository;
+import com.app.course.repository.*;
+import com.app.course.security.SecurityConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -11,11 +13,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class UserServiceIpm implements UserService {
     @Autowired
-    UserRepository repository;
+    UserRepository userRepository;
 
+    @Autowired
+    EducatorRepository educatorRepository;
     /*
      * @AUTHOR: SINH TIEN
      * @SINCE: 8/27/2023 1:50 PM
@@ -26,7 +31,7 @@ public class UserServiceIpm implements UserService {
     @Override
     public ResponseEntity<RepositoryObject> getAllUser() {
         return ResponseEntity.status(HttpStatus.OK).body(
-                new RepositoryObject("ok", "query user successfully ", repository.findAll())
+                new RepositoryObject("ok", "query user successfully ", userRepository.findAll())
         );
     }
 
@@ -39,7 +44,7 @@ public class UserServiceIpm implements UserService {
      * */
     @Override
     public ResponseEntity<RepositoryObject> getUserById(long id) {
-        Optional<User> user = repository.findById(id);
+        Optional<User> user = userRepository.findById(id);
         return user.isPresent() ?
                 ResponseEntity.status(HttpStatus.OK).body(
                         new RepositoryObject("ok", "query user successfully", user)
@@ -51,13 +56,13 @@ public class UserServiceIpm implements UserService {
 
     @Override
     public ResponseEntity<RepositoryObject> getUserByName(String userName) {
-        User user = repository.findByUsername(userName);
+        User user = userRepository.findByUsername(userName);
         return user != null ?
                 ResponseEntity.status(HttpStatus.OK).body(
                         new RepositoryObject("ok", "query user successfully", user)
                 ) :
                 ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                        new RepositoryObject("failed", "cant not found with user=" + userName , "")
+                        new RepositoryObject("failed", "cant not found with user=" + userName, "")
                 );
     }
 
@@ -70,9 +75,9 @@ public class UserServiceIpm implements UserService {
      * */
     @Override
     public ResponseEntity<RepositoryObject> deleteUserById(long id) {
-        boolean exist = repository.existsById(id);
+        boolean exist = userRepository.existsById(id);
         if (exist) {
-            repository.deleteById(id);
+            userRepository.deleteById(id);
             return ResponseEntity.status(HttpStatus.OK).body(
                     new RepositoryObject("ok", "query user successfully", "")
             );
@@ -93,11 +98,11 @@ public class UserServiceIpm implements UserService {
      * */
     @Override
     public ResponseEntity<RepositoryObject> insertUser(User user) {
-        User users = repository.findByUsername(user.getUsername().trim());
+        User users = userRepository.findByUsername(user.getUsername().trim());
         // if user not exist then insert
         return users == null ?
                 ResponseEntity.status(HttpStatus.OK).body(
-                        new RepositoryObject("ok", "query user successfully", repository.save(user))
+                        new RepositoryObject("ok", "query user successfully", userRepository.save(user))
                 ) :
                 // status 409 -> xảy ra sung đột
                 ResponseEntity.status(HttpStatus.CONFLICT).body(
@@ -110,19 +115,28 @@ public class UserServiceIpm implements UserService {
     public ResponseEntity<RepositoryObject> updateIfoUser(User newUser, long id) {
         try {
             // update from new user to old user, return if user cant not found
-            User updateUser = repository.findById(id).map(user -> {
+            User updateUser = userRepository.findById(id).map(user -> {
                 user.setFirstName(newUser.getFirstName());
                 user.setLastName(newUser.getLastName());
                 user.setEmail(newUser.getEmail());
                 user.setPhone(newUser.getPhone());
-                user.setAddress(newUser.getAddress());
+//                user.setAddress(newUser.getAddress());
+                user.setCity(newUser.getCity());
+                user.setCountry(newUser.getCountry());
+                user.setZipCode(newUser.getZipCode());
+                user.setZipCodeCity(newUser.getZipCodeCity());
+                // update Educator
+                user.getEducator().setDescription(newUser.getEducator().getDescription());
+                user.getEducator().setBiography(newUser.getEducator().getBiography());
+                // update Student
+
                 return user;
             }).orElse(null);
 
             // save user at db if found user with param id
             return updateUser != null ?
                     ResponseEntity.status(HttpStatus.OK).body(
-                            new RepositoryObject("ok", "query user successfully", repository.save(updateUser))
+                            new RepositoryObject("ok", "query user successfully", userRepository.save(updateUser))
                     ) :
                     ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                             new RepositoryObject("failed", "cant not user with id= " + id, "")
@@ -138,7 +152,7 @@ public class UserServiceIpm implements UserService {
     public ResponseEntity<RepositoryObject> updatePassUser(User newUser, long id) {
         try {
             // update from new user to old user, return if user cant not found
-            User updateUser = repository.findById(id).map(user -> {
+            User updateUser = userRepository.findById(id).map(user -> {
                 user.setPassword(newUser.getPassword());
                 return user;
             }).orElse(null);
@@ -146,7 +160,7 @@ public class UserServiceIpm implements UserService {
             // save user at db if found user with param id
             return updateUser != null ?
                     ResponseEntity.status(HttpStatus.OK).body(
-                            new RepositoryObject("ok", "query user successfully", repository.save(updateUser))
+                            new RepositoryObject("ok", "query user successfully", userRepository.save(updateUser))
                     ) :
                     ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                             new RepositoryObject("failed", "cant not user with id= " + id, "")
@@ -162,7 +176,7 @@ public class UserServiceIpm implements UserService {
     public ResponseEntity<RepositoryObject> updateAvatarUser(User newUser, long id) {
         try {
             // update from new user to old user, return if user cant not found
-            User updateUser = repository.findById(id).map(user -> {
+            User updateUser = userRepository.findById(id).map(user -> {
                 user.setAvatar(newUser.getAvatar());
                 return user;
             }).orElse(null);
@@ -170,7 +184,7 @@ public class UserServiceIpm implements UserService {
             // save user at db if found user with param id
             return updateUser != null ?
                     ResponseEntity.status(HttpStatus.OK).body(
-                            new RepositoryObject("ok", "query user successfully", repository.save(updateUser))
+                            new RepositoryObject("ok", "query user successfully", userRepository.save(updateUser))
                     ) :
                     ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                             new RepositoryObject("failed", "cant not user with id= " + id, "")
@@ -182,4 +196,34 @@ public class UserServiceIpm implements UserService {
         }
     }
 
+    @Override
+    public ResponseEntity<RepositoryObject> changePassword(long idUser, String oldPassword, String newPassword) {
+        Optional<User> userOptional = userRepository.findById(idUser);
+        try {
+            // nếu id hợp lệ và đúng password thì cho phép đổi mật khẩu
+            if (userOptional.isPresent()) {
+                User user = userOptional.get();
+                // nếu mật khẩu đúng thì cho phép đổi mật khẩu
+                if (SecurityConfig.passwordEncoder().matches(oldPassword, user.getPassword())) {
+                    // bam mật khẩu trước khi lưu
+                    String encodePassword = SecurityConfig.passwordEncoder().encode(newPassword);
+                    user.setPassword(encodePassword);
+                    return Response.result(HttpStatus.OK, Status.OK, AlertQuery.QUERY_SUCCESS, userRepository.save(user));
+                }
+                // Nếu mật khẩu không đúng
+                else {
+                    log.warn("changePassword: password incorrect");
+                    return Response.result(HttpStatus.BAD_REQUEST, Status.FAILED, AlertQuery.CANT_NOT_FOUND);
+                }
+            }
+            // không tìm thấy user từ id
+            else {
+                log.warn("changePassword: id not exits");
+                return Response.result(HttpStatus.OK, Status.FAILED, AlertQuery.CANT_NOT_FOUND);
+            }
+        } catch (Exception e) {
+            log.error("changePassword:" + e.getMessage());
+            return Response.result(HttpStatus.BAD_REQUEST, Status.FAILED, AlertQuery.ERR, e.getMessage());
+        }
+    }
 }

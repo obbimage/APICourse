@@ -11,17 +11,14 @@ import org.springframework.web.bind.annotation.*;
 public class SecurityController {
     @Autowired
     UserSecurityService securityService;
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User userRegister){
-        return securityService.register(userRegister);
-    }
+//
 
-    @GetMapping("/register")
-    public String getRegister(){
-        return "register";
-    }
-    @GetMapping("/auth")
-    public String auth(){
-        return "auth";
-    }
+//    @GetMapping("/register")
+//    public String getRegister(){
+//        return "register";
+//    }
+//    @GetMapping("/auth")
+//    public String auth(){
+//        return "auth";
+//    }
 }

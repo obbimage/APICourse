@@ -16,5 +16,6 @@ public interface UserService {
     ResponseEntity<RepositoryObject> updateIfoUser(User user, long id);
     ResponseEntity<RepositoryObject> updatePassUser(User user, long id);
     ResponseEntity<RepositoryObject> updateAvatarUser(User user, long id);
+    ResponseEntity<RepositoryObject> changePassword(long idUser,String oldPassword,String newPassword);
 
 }

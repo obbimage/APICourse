@@ -19,13 +19,11 @@ public class Register {
 
     @PostMapping("/educator")
     public ResponseEntity<?> registerEducator(@RequestBody User user) {
-        user.setRole(Constants.ROLE_EDUCATOR);
-        return userSecurityService.register(user);
+        return userSecurityService.registerEducator(user);
     }
 
     @PostMapping("/user")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
-        user.setRole(Constants.ROLE_USER);
-        return userSecurityService.register(user);
+        return userSecurityService.registerUser(user);
     }
 }

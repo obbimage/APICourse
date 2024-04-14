@@ -23,6 +23,12 @@ public class UserSecurity implements UserDetails {
         return Collections.singleton(new SimpleGrantedAuthority(role));
     }
 
+    public User getUser(){
+        User user = this.user;
+        user.setPassword("");
+        return user;
+    }
+
     @Override
     public String getPassword() {
         return user.getPassword();
