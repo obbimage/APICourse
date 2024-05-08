@@ -34,6 +34,16 @@ public class SubRoleServiceIpm implements SubRoleService {
     }
 
     @Override
+    public ResponseEntity<RepositoryObject> getSubRoleByRoleId(int id) {
+        try {
+            var response = repository.findByRoleId(id);
+            return Response.resultOk(response);
+        } catch (Exception e) {
+            return Response.resultFail();
+        }
+    }
+
+    @Override
     public ResponseEntity<RepositoryObject> insertSubRole(SubRole subRole) {
         try {
             return Response.result(HttpStatus.OK, Status.OK, QUERY_SUCCESS, repository.save(subRole));

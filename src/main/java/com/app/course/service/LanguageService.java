@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 public interface LanguageService {
-    List<Language> getAllLanguage();
+    ResponseEntity<RepositoryObject> getAllLanguage();
     ResponseEntity<RepositoryObject> getLanguageById(int id);
     ResponseEntity<RepositoryObject> deleteLanguageById(int id);
     ResponseEntity<RepositoryObject> insertLanguage( Language language);

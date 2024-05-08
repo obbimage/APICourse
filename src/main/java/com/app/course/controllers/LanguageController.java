@@ -16,7 +16,7 @@ public class LanguageController {
     @Autowired
     LanguageService service;
     @GetMapping("")
-    public List<Language> getAll(){
+    public ResponseEntity<RepositoryObject> getAll(){
         return service.getAllLanguage();
     }
 

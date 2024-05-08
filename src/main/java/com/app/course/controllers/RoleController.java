@@ -18,6 +18,11 @@ public class RoleController {
         return service.getAllRole();
     }
 
+//    @GetMapping("/course/{courseId}")
+//    public ResponseEntity<RepositoryObject> getRoleByCourseId(@PathVariable long courseId){
+//        return service.getRoleByCourseId(courseId);
+//    }
+
     @GetMapping("/{id}")
     public ResponseEntity<RepositoryObject> getRoleById(@PathVariable int id){
         return service.getRoleById(id);

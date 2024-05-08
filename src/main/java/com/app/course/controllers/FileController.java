@@ -1,12 +1,14 @@
 package com.app.course.controllers;
 
+import com.app.course.models.FileUploadResponse;
 import com.app.course.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.Repository;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/files")
@@ -34,6 +36,28 @@ public class FileController {
                     .internalServerError()
                     .body("File upload unsuccessful!");
         }
+    }
+    @PostMapping("/video")
+    public FileUploadResponse uploadVideo(@RequestParam MultipartFile file) {
+            return service.uploadVideo(file);
+    }
+    @GetMapping("/video/{fileName}")
+    public ResponseEntity<?> getFileVideo (@PathVariable String fileName){
+        var fileBytes = service.getFileVideo(fileName);
+        MediaType mediaType = MediaType.parseMediaType("video/mp4");
+        return ResponseEntity
+                .ok()
+                .contentType(mediaType)
+                .body(fileBytes);
+    }
+
+    @GetMapping("/img/{fileName}")
+    public ResponseEntity<?> getFileImg (@PathVariable String fileName){
+        var fileBytes = service.getFileImg(fileName);
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(fileBytes);
     }
 
     @DeleteMapping("/{file}")

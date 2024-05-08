@@ -33,6 +33,21 @@ public class RoleServiceIpm implements RoleService {
                 Response.result(HttpStatus.NOT_FOUND, Status.FAILED, CAN_NOT_FOUND + id);
     }
 
+//    @Override
+//    public ResponseEntity<RepositoryObject> getRoleByCourseId(long courseId) {
+//        try {
+//            Optional<Role> roleOptional = repository.findByCourseId(courseId);
+//            if(roleOptional.isPresent()){
+//                Role role = roleOptional.get();
+//                return Response.resultOk(role);
+//            }else{
+//                return Response.resultFail();
+//            }
+//        } catch (Exception e) {
+//            return Response.resultError(e.getMessage());
+//        }
+//    }
+
     @Override
     public ResponseEntity<RepositoryObject> insertRole(Role role) {
         try {

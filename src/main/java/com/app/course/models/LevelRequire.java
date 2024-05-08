@@ -3,6 +3,7 @@ package com.app.course.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,9 +17,14 @@ public class LevelRequire {
     @Column(unique = true)
     private String level;
 
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "levelRequire")
+//    private Set<Course> courses;
+
     @JsonIgnore
-    @OneToMany(mappedBy = "levelRequire")
-    private Set<Course> courses;
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    private Course course;
 
     public LevelRequire(){}
 
@@ -38,11 +44,11 @@ public class LevelRequire {
         this.level = level;
     }
 
-    public Set<Course> getCourses() {
-        return courses;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setCourses(Set<Course> courses) {
-        this.courses = courses;
+    public void setCourse(Course course) {
+        this.course = course;
     }
 }

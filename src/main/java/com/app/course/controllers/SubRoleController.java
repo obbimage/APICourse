@@ -22,7 +22,10 @@ public class SubRoleController {
     public ResponseEntity<RepositoryObject> getSubRoleById(@PathVariable int id) {
         return service.getSubRoleById(id);
     }
-
+    @GetMapping("/role/{roleId}")
+    public ResponseEntity<RepositoryObject> getSubRoleByRoleId(@PathVariable int roleId){
+        return service.getSubRoleByRoleId(roleId);
+    }
     @PostMapping()
     public ResponseEntity<RepositoryObject> insertRole(@RequestBody SubRole subRole) {
         return service.insertSubRole(subRole);
@@ -32,6 +35,7 @@ public class SubRoleController {
     public ResponseEntity<RepositoryObject> updateRole(@RequestBody SubRole subRole, @PathVariable int id) {
         return service.updateSubRole(subRole, id);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<RepositoryObject> deleteSubRoleById(@PathVariable int id) {

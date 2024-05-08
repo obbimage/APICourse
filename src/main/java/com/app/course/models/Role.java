@@ -13,10 +13,13 @@ public class Role {
     private int id;
     @Column(unique = true)
     private String name;
-
     @JsonIgnore
     @OneToMany(mappedBy = "role")
     private Set<SubRole> subRoles;
+
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "role")
+//    private Set<Course> courses;
 
     public Role(){}
 
@@ -43,4 +46,12 @@ public class Role {
     public void setSubRoles(Set<SubRole> subRoles) {
         this.subRoles = subRoles;
     }
+
+//    public Set<Course> getCourses() {
+//        return courses;
+//    }
+//
+//    public void setCourses(Set<Course> courses) {
+//        this.courses = courses;
+//    }
 }

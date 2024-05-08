@@ -11,14 +11,17 @@ public class Unit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "course_id",nullable = false)
     private Course course;
 
     @JsonIgnore
     @OneToMany(mappedBy = "unit",cascade = CascadeType.ALL)
-    @Column(name = "section")
+//    @Column(name = "section")
     private Set<Section> sections;
+    @Column(nullable = false)
+    private int numberUnit;
     private String title;
 
     public Unit(){}
@@ -57,5 +60,13 @@ public class Unit {
 
     public void setSections(Set<Section> sections) {
         this.sections = sections;
+    }
+
+    public int getNumberUnit() {    
+        return numberUnit;
+    }
+
+    public void setNumberUnit(int numberUnit) {
+        this.numberUnit = numberUnit;
     }
 }

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -37,6 +38,8 @@ public class User implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "role_user_id")}
     )
     private Set<RoleUser> roleUsers = new HashSet<>();
+
+
     private String firstName;
     private String lastName;
     private String avatar;

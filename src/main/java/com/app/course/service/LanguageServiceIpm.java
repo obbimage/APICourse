@@ -3,6 +3,7 @@ package com.app.course.service;
 import com.app.course.models.Language;
 import com.app.course.repository.LanguageRepository;
 import com.app.course.repository.RepositoryObject;
+import com.app.course.repository.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,9 @@ public class LanguageServiceIpm implements LanguageService {
     LanguageRepository repository;
 
     @Override
-    public List<Language> getAllLanguage() {
-        return repository.findAll();
+    public ResponseEntity<RepositoryObject> getAllLanguage() {
+        var response = repository.findAll();
+        return Response.resultOk(response);
     }
 
     /*

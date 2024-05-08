@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 @RestController
 @RequestMapping("/unit")
 public class UnitController {
@@ -25,11 +28,18 @@ public class UnitController {
         return service.getUnitById(id);
     }
 
-    @PostMapping("")
-    public ResponseEntity<RepositoryObject> insertUnit(@RequestBody Unit unit){
-        return service.insertUnit(unit);
+    @GetMapping("/course/{courseId}")
+    public ResponseEntity<?> getUnitByCourseId(@PathVariable long courseId){
+        return service.getByCourseId(courseId);
     }
-
+    @PostMapping("/inserts/course/{courseId}")
+    public ResponseEntity<RepositoryObject> insertUnit(@PathVariable long courseId, @RequestBody ArrayList<Unit> units){
+        return service.insertUnit(courseId,units);
+    }
+    @PostMapping("/insert/course/{courseId}")
+    public ResponseEntity<RepositoryObject> insertUnit(@PathVariable long courseId,@RequestBody Unit unit){
+        return service.insertUnit(courseId, unit);
+    }
     @PutMapping("/{id}")
     public ResponseEntity<RepositoryObject> updateUnit(@RequestBody Unit unit, @PathVariable int id){
         return service.updateUnit(unit,id);

@@ -35,10 +35,11 @@ import static jakarta.servlet.DispatcherType.FORWARD;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig  {
+public class SecurityConfig {
 
     @Autowired
     UserSecurityService userSecurityService;
+
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
         UserDetails user1 = User.withUsername("user1")
@@ -55,10 +56,12 @@ public class SecurityConfig  {
                 .build();
         return new InMemoryUserDetailsManager(user1, user2, admin);
     }
+
     @Bean
     static public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+
     @Bean
     public AuthenticationManager authenticationManager() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -73,7 +76,7 @@ public class SecurityConfig  {
     }
 
     @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter(){
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
         return new JwtAuthenticationFilter();
     }
 
@@ -82,7 +85,7 @@ public class SecurityConfig  {
 
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Collections.singletonList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT","DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("*")); // thêm Access-Control-Allow-Origin vào header
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
@@ -98,14 +101,16 @@ public class SecurityConfig  {
 //                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
+                                .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
 //                                .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-                        .requestMatchers("/error","/educator","/user/updateInfo/**","/auth/**","user/changePassword/**").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/register/**","/auth/**").permitAll()
-                                .requestMatchers("/files/**").permitAll()
-                        .anyRequest().authenticated()
+                                .requestMatchers("/error", "/educator", "/user/updateInfo/**", "user/**",
+                                        "/auth/**", "user/changePassword/**","/course/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "/register/**", "/auth/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/role/**","/language/**").permitAll()
+                                .requestMatchers("/files/**","/studentWillLearn/**","/role/**","/subrole/**","/whoCourse/**","/unit/**","/section/**").permitAll()
+                                .anyRequest().authenticated()   
                 )
-                .httpBasic(Customizer.withDefaults()) ; // đăng nhập với http
+                .httpBasic(Customizer.withDefaults()); // đăng nhập với http
 //                .formLogin(Customizer.withDefaults()); // Đăng nhập với form
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

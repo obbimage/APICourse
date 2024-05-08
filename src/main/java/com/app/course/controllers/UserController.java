@@ -7,6 +7,7 @@ import com.app.course.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping(path = "/user")
@@ -41,6 +42,11 @@ public class UserController {
     @PutMapping("/changePassword")
     public ResponseEntity<RepositoryObject> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest){
              return service.changePassword(changePasswordRequest.getId(),changePasswordRequest.getOldPassword(),changePasswordRequest.getNewPassword());
+    }
+
+    @PostMapping("/updateAvatar/{id}")
+    public ResponseEntity<?> updateAvatar(@PathVariable long id, @RequestParam MultipartFile file){
+        return service.updateAvatarUser(id,file);
     }
 //    @PutMapping("/{id}")
 //    public ResponseEntity<RepositoryObject> updatePassUser(@RequestBody User user, @PathVariable long id){

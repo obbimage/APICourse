@@ -2,12 +2,14 @@ package com.app.course.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 
-import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
+@AllArgsConstructor
 @Entity
-@Table(name="course")
+@Table(name = "course")
 public class Course {
     // -------set primer key------
     @Id
@@ -16,16 +18,15 @@ public class Course {
 
     // -----set fk------
     @JsonIgnore
-    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<Unit> unit;
     @ManyToOne
     @JoinColumn(name = "language_id")
     private Language language;
-    @ManyToOne
-    @JoinColumn(name = "levelRequire_id")
-    private LevelRequire levelRequire;
+    @OneToMany(mappedBy = "course")
+    private List<LevelRequire> levelRequires;
     @JsonIgnore
-    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private Set<Test> test;
     @JsonIgnore
     @OneToMany(mappedBy = "course")
@@ -33,27 +34,38 @@ public class Course {
     @JsonIgnore
     @OneToMany(mappedBy = "course")
     private Set<Rate> rates;
+//    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
     @ManyToOne
     @JoinColumn(name = "subRole_id")
     private SubRole subRole;
+    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "user_id",nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<StudentWillLearn> studentWillLearns;
+    @JsonIgnore
+    @OneToMany(mappedBy = "course",cascade = CascadeType.ALL)
+    private List<WhoCourse> whoCourses;
 
     // -------set colum-------
+    @Column(columnDefinition = "LONGTEXT")
+    private String summary;  // Tóm tắt khóa học
     private String clipDemo;
+    private String img;
     private String name;
     private String title;
     private String description;
     private String price;
-    @Temporal(TemporalType.DATE)
-    private Date dateUpload;
-    private Date dateUpdate;
+
+    private String dateUpload;
+    private String  dateUpdate;
     private boolean confirm;
+    private boolean complete; // khóa học đã xong tạo hay chưa
 
     public Course() {
     }
@@ -82,12 +94,13 @@ public class Course {
         this.language = language;
     }
 
-    public LevelRequire getLevelRequire() {
-        return levelRequire;
+
+    public List<LevelRequire> getLevelRequires() {
+        return levelRequires;
     }
 
-    public void setLevelRequire(LevelRequire levelRequire) {
-        this.levelRequire = levelRequire;
+    public void setLevelRequires(List<LevelRequire> levelRequires) {
+        this.levelRequires = levelRequires;
     }
 
     public Set<Test> getTest() {
@@ -178,19 +191,19 @@ public class Course {
         this.price = price;
     }
 
-    public Date getDateUpload() {
+    public String getDateUpload() {
         return dateUpload;
     }
 
-    public void setDateUpload(Date dateUpload) {
+    public void setDateUpload(String dateUpload) {
         this.dateUpload = dateUpload;
     }
 
-    public Date getDateUpdate() {
+    public String getDateUpdate() {
         return dateUpdate;
     }
 
-    public void setDateUpdate(Date dateUpdate) {
+    public void setDateUpdate(String dateUpdate) {
         this.dateUpdate = dateUpdate;
     }
 
@@ -200,5 +213,45 @@ public class Course {
 
     public void setConfirm(boolean confirm) {
         this.confirm = confirm;
+    }
+
+    public List<StudentWillLearn> getStudentWillLearns() {
+        return studentWillLearns;
+    }
+
+    public void setStudentWillLearns(List<StudentWillLearn> studentWillLearns) {
+        this.studentWillLearns = studentWillLearns;
+    }
+
+    public List<WhoCourse> getWhoCourses() {
+        return whoCourses;
+    }
+
+    public void setWhoCourses(List<WhoCourse> whoCourses) {
+        this.whoCourses = whoCourses;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public boolean getComplete() {
+        return complete;
+    }
+
+    public void setComplete(boolean complete) {
+        this.complete = complete;
     }
 }
