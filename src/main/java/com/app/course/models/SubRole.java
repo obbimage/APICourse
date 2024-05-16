@@ -12,6 +12,7 @@ public class SubRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(unique = true)
     private String name;
     @JsonIgnore
     @ManyToOne

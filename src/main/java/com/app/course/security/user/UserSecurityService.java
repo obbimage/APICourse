@@ -50,4 +50,9 @@ public class UserSecurityService implements UserDetailsService {
         user.setRole(Constants.ROLE_USER);
         return register(user);
     }
+
+    public ResponseEntity<RepositoryObject> registerAdmin(User user){
+        user.setRole(Constants.ROLE_ADMIN);
+        return register(user);
+    }
 }

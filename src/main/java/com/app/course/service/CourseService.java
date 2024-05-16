@@ -9,7 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface CourseService {
-    ResponseEntity<RepositoryObject> getCourseAll();
+    ResponseEntity<RepositoryObject> getAllCourse();
+    ResponseEntity<RepositoryObject> getAllReviewCourse(); // lây tất cả khóa học cần xét duyệt
     ResponseEntity<RepositoryObject> getCourseById(long id);
     ResponseEntity<RepositoryObject> insertCourse(Course course);
     ResponseEntity<RepositoryObject> insertCourse(long userId,Course course);

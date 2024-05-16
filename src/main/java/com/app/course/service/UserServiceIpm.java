@@ -109,8 +109,10 @@ public class UserServiceIpm implements UserService {
                 user.setZipCode(newUser.getZipCode());
                 user.setZipCodeCity(newUser.getZipCodeCity());
                 // update Educator
-                user.getEducator().setDescription(newUser.getEducator().getDescription());
-                user.getEducator().setBiography(newUser.getEducator().getBiography());
+                if(user.getEducator() != null){
+                    user.getEducator().setDescription(newUser.getEducator().getDescription());
+                    user.getEducator().setBiography(newUser.getEducator().getBiography());
+                }
                 // update Student
 
                 return user;

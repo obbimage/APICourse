@@ -26,9 +26,9 @@ public class SubRoleController {
     public ResponseEntity<RepositoryObject> getSubRoleByRoleId(@PathVariable int roleId){
         return service.getSubRoleByRoleId(roleId);
     }
-    @PostMapping()
-    public ResponseEntity<RepositoryObject> insertRole(@RequestBody SubRole subRole) {
-        return service.insertSubRole(subRole);
+    @PostMapping("/insert/role/{roleId}")
+    public ResponseEntity<RepositoryObject> insertRole(@PathVariable int roleId,@RequestBody SubRole subRole) {
+        return service.insertSubRole(roleId,subRole);
     }
 
     @PutMapping("/{id}")

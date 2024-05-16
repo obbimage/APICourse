@@ -41,7 +41,7 @@ public class Course {
     @ManyToOne
     @JoinColumn(name = "subRole_id")
     private SubRole subRole;
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

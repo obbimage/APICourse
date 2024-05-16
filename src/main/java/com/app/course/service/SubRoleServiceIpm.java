@@ -1,10 +1,8 @@
 package com.app.course.service;
 
+import com.app.course.models.Role;
 import com.app.course.models.SubRole;
-import com.app.course.repository.RepositoryObject;
-import com.app.course.repository.Response;
-import com.app.course.repository.Status;
-import com.app.course.repository.SubRoleRepository;
+import com.app.course.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
@@ -19,6 +17,8 @@ public class SubRoleServiceIpm implements SubRoleService {
     private final String CAN_NOT_FOUND = "CAN NOT FOUND SUB ROLE WITH ID: ";
     @Autowired
     SubRoleRepository repository;
+    @Autowired
+    RoleRepository roleRepository;
 
     @Override
     public ResponseEntity<RepositoryObject> getAllSubRole() {
@@ -44,9 +44,17 @@ public class SubRoleServiceIpm implements SubRoleService {
     }
 
     @Override
-    public ResponseEntity<RepositoryObject> insertSubRole(SubRole subRole) {
+    public ResponseEntity<RepositoryObject> insertSubRole(int roleId, SubRole subRole) {
         try {
-            return Response.result(HttpStatus.OK, Status.OK, QUERY_SUCCESS, repository.save(subRole));
+            Optional<Role> roleOptional = roleRepository.findById(roleId);
+            if (roleOptional.isPresent()) {
+                Role role = roleOptional.get();
+                subRole.setRole(role);
+                var response = repository.save(subRole);
+                return Response.resultOk(response);
+            } else {
+                return Response.resultFail();
+            }
         } catch (DataAccessException e) {
             return Response.result(HttpStatus.NOT_IMPLEMENTED, Status.ERR, e.getMessage());
         }
@@ -74,19 +82,19 @@ public class SubRoleServiceIpm implements SubRoleService {
     }
 
     /*
-    * @AUTHOR: SINH TIEN
-    * @SINCE: 9/1/2023 2:57 PM
-    * @DESCRIPTION:  find with id, if exist than delete sub role, if not found than alert not found with id
-    * @UPDATE:
-    *
-    * */
+     * @AUTHOR: SINH TIEN
+     * @SINCE: 9/1/2023 2:57 PM
+     * @DESCRIPTION:  find with id, if exist than delete sub role, if not found than alert not found with id
+     * @UPDATE:
+     *
+     * */
     @Override
     public ResponseEntity<RepositoryObject> deleteSubRoleById(int id) {
         boolean exist = repository.existsById(id);
         if (exist) {
             repository.deleteById(id);
             return Response.result(HttpStatus.OK, Status.OK, QUERY_SUCCESS);
-        }else {
+        } else {
             return Response.result(HttpStatus.NOT_FOUND, Status.FAILED, CAN_NOT_FOUND + id);
         }
     }

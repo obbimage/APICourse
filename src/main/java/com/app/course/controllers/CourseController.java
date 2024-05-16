@@ -16,47 +16,59 @@ import java.util.ArrayList;
 public class CourseController {
     @Autowired
     CourseService service;
+
     @GetMapping("")
-    public ResponseEntity<RepositoryObject> getAllCourse(){
-        return service.getCourseAll();
+    public ResponseEntity<RepositoryObject> getAllCourse() {
+        return service.getAllCourse();
+    }
+
+    @GetMapping("/review")
+    public ResponseEntity<RepositoryObject> getAllReview() {
+        return service.getAllReviewCourse();
     }
 
     @GetMapping("/user/{userId}")
-    public ResponseEntity<?> getCourseByUserId(@PathVariable long userId){
+    public ResponseEntity<?> getCourseByUserId(@PathVariable long userId) {
         return service.findCourseByUserId(userId);
     }
-    @GetMapping("/{id}")    
-    public ResponseEntity<RepositoryObject> getCourseById(@PathVariable long id){
+
+    @GetMapping("/{id}")
+    public ResponseEntity<RepositoryObject> getCourseById(@PathVariable long id) {
         return service.getCourseById(id);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<RepositoryObject> deleteCourseById(@PathVariable long id){
-        return  service.deleteCourseById(id);
+    public ResponseEntity<RepositoryObject> deleteCourseById(@PathVariable long id) {
+        return service.deleteCourseById(id);
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<RepositoryObject> updateCourse(@RequestBody Course course, @PathVariable long id){
-        return  service.updateCourseById(course,id);
+    public ResponseEntity<RepositoryObject> updateCourse(@RequestBody Course course, @PathVariable long id) {
+        return service.updateCourseById(course, id);
     }
 
     @PostMapping("")
-    public ResponseEntity<RepositoryObject> insertCourse(@RequestBody Course course){
+    public ResponseEntity<RepositoryObject> insertCourse(@RequestBody Course course) {
         return service.insertCourse(course);
     }
+
     @PostMapping("/insert/user/{userId}")
-    public  ResponseEntity<?> insertCourse(@PathVariable long userId,@RequestBody Course course){
-        return service.insertCourse(userId,course);
+    public ResponseEntity<?> insertCourse(@PathVariable long userId, @RequestBody Course course) {
+        return service.insertCourse(userId, course);
     }
+
     @PostMapping("{courseId}/insert/clipDemo")
-    public ResponseEntity<?> insertClipDem(@PathVariable long courseId, @RequestParam("file") MultipartFile fileVideo){
-        return service.insertClipDemoCourse(courseId,fileVideo);
+    public ResponseEntity<?> insertClipDem(@PathVariable long courseId, @RequestParam("file") MultipartFile fileVideo) {
+        return service.insertClipDemoCourse(courseId, fileVideo);
     }
+
     @PostMapping("{courseId}/insert/img")
-    public ResponseEntity<?> insertImg(@PathVariable long courseId, @RequestParam("file")MultipartFile fileImg){
-        return service.insertImgCourse(courseId,fileImg);
+    public ResponseEntity<?> insertImg(@PathVariable long courseId, @RequestParam("file") MultipartFile fileImg) {
+        return service.insertImgCourse(courseId, fileImg);
     }
+
     @PostMapping("{courseId}/insert/studyWillLearn")
-    public ResponseEntity<?> insertWillStudyLearn(@RequestBody ArrayList<StudentWillLearn> studentWillLearns,@PathVariable long courseId){
-        return service.insertStudyWillLearn(courseId,studentWillLearns);
+    public ResponseEntity<?> insertWillStudyLearn(@RequestBody ArrayList<StudentWillLearn> studentWillLearns, @PathVariable long courseId) {
+        return service.insertStudyWillLearn(courseId, studentWillLearns);
     }
 }

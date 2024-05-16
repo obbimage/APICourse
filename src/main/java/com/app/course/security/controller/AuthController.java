@@ -86,20 +86,15 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/admin")
+    public ResponseEntity<?> loginAdmin(@RequestBody LoginRequest loginRequest,HttpServletRequest request){
+        return login(loginRequest,Constants.ROLE_ADMIN,request);
+    }
     @PostMapping("/educator")
     public ResponseEntity<?> educator(@RequestBody LoginRequest loginRequest,HttpServletRequest request) {
         return login(loginRequest, Constants.ROLE_EDUCATOR,request);
     }
 
-//    @PostMapping("/educator")
-//    public ResponseEntity<?> educator(@RequestBody String token){
-//        // kiểm tra jwt có hợp lệ hay không
-//        if(StringUtils.hasText(token) && jwtTokenProvider.validateToken(token)){
-//            String username = jwtTokenProvider.getUserNameFromJWT(token);
-//            UserSecurity userSecurity = (UserSecurity) userSecurityService.loadUserByUsername(username);
-//
-//        }
-//    }
 
     @PostMapping("/user")
     public ResponseEntity<?> user(@RequestBody LoginRequest loginRequest,HttpServletRequest request) {

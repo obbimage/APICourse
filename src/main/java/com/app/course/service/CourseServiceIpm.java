@@ -32,8 +32,14 @@ public class CourseServiceIpm implements CourseService {
     FileService fileService;
 
     @Override
-    public ResponseEntity<RepositoryObject> getCourseAll() {
+    public ResponseEntity<RepositoryObject> getAllCourse() {
         return Response.result(HttpStatus.OK, Status.OK, QUERY_SUCCESS, courseRepository.findAll());
+    }
+
+    @Override
+    public ResponseEntity<RepositoryObject> getAllReviewCourse() {
+        var response = courseRepository.findAll();
+        return Response.resultOk(response);
     }
 
     @Override

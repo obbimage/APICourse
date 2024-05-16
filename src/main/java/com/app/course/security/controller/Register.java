@@ -21,9 +21,12 @@ public class Register {
     public ResponseEntity<?> registerEducator(@RequestBody User user) {
         return userSecurityService.registerEducator(user);
     }
-
     @PostMapping("/user")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         return userSecurityService.registerUser(user);
+    }
+    @PostMapping("/admin")
+    public ResponseEntity<?> registerAdmin(@RequestBody User user){
+        return  userSecurityService.registerAdmin(user);
     }
 }
