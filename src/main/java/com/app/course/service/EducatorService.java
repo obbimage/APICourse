@@ -11,4 +11,5 @@ public interface EducatorService {
     ResponseEntity<RepositoryObject> getEducatorById(long id);
     ResponseEntity<RepositoryObject> deleteEducatorById(long id);
     ResponseEntity<RepositoryObject> updateEducator(Educator newEducator, long id);
+
 }

@@ -28,6 +28,10 @@ public class RoleController {
         return service.getRoleById(id);
     }
 
+    @PostMapping("/{roleId}/toggle")
+    public ResponseEntity<?> toggle(@PathVariable int roleId){
+        return service.toggleRole(roleId);
+    }
     @PostMapping("")
     public ResponseEntity<RepositoryObject> insertRole(@RequestBody Role role){
         return  service.insertRole(role);

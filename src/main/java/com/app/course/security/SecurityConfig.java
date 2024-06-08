@@ -103,11 +103,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                                 .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
 //                                .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-                                .requestMatchers("/error", "/educator", "/user/updateInfo/**", "user/**",
-                                        "/auth/**", "user/changePassword/**","/course/**").permitAll()
+                                .requestMatchers("/error", "/educator/**", "/user/updateInfo/**", "user/**", "buy/**",
+                                        "/auth/**", "user/changePassword/**","/course/**","user/updateInfo/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/register/**", "/auth/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/role/**","/language/**").permitAll()
-                                .requestMatchers("/files/**","/studentWillLearn/**","/role/**","/subrole/**","/whoCourse/**","/unit/**","/section/**").permitAll()
+                                .requestMatchers("initData/**","/files/**","/studentWillLearn/**","/role/**","/subrole/**","/whoCourse/**","/unit/**","/section/**").permitAll()
+                                .requestMatchers("pay/**").permitAll()
+                                .requestMatchers(HttpMethod.POST,"rate/**").authenticated()
+                                .requestMatchers("course/buy/**").authenticated()
                                 .anyRequest().authenticated()   
                 )
                 .httpBasic(Customizer.withDefaults()); // đăng nhập với http

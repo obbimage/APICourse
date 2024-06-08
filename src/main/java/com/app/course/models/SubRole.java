@@ -2,10 +2,16 @@ package com.app.course.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name ="subRole" )
 public class SubRole {
@@ -23,29 +29,6 @@ public class SubRole {
     @OneToMany(mappedBy = "subRole")
     private Set<Course> courses;
 
-    public SubRole(){}
+    private boolean isAllow;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
 }

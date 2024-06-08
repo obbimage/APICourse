@@ -2,9 +2,16 @@ package com.app.course.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.util.Set;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "role")
 public class Role {
@@ -16,42 +23,6 @@ public class Role {
     @JsonIgnore
     @OneToMany(mappedBy = "role")
     private Set<SubRole> subRoles;
+    private boolean isAllow = true;
 
-//    @JsonIgnore
-//    @OneToMany(mappedBy = "role")
-//    private Set<Course> courses;
-
-    public Role(){}
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<SubRole> getSubRoles() {
-        return subRoles;
-    }
-
-    public void setSubRoles(Set<SubRole> subRoles) {
-        this.subRoles = subRoles;
-    }
-
-//    public Set<Course> getCourses() {
-//        return courses;
-//    }
-//
-//    public void setCourses(Set<Course> courses) {
-//        this.courses = courses;
-//    }
 }

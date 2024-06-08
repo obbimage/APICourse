@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface StudentWillLearnRepository  extends JpaRepository<StudentWillLearn,Integer> {
     List<StudentWillLearn> findByCourseId(int id);
+    boolean existsByContent(String content);
 }

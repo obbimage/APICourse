@@ -1,10 +1,15 @@
 package com.app.course.service;
 
+import com.app.course.DTO.User.UserDTO;
+import com.app.course.DTO.User.UserUpdateRequest;
 import com.app.course.config.AlertQuery;
+import com.app.course.mapper.user.UserMapper;
+import com.app.course.mapper.user.UserUpdateRequestMapper;
 import com.app.course.models.FileUploadResponse;
 import com.app.course.models.User;
 import com.app.course.repository.*;
 import com.app.course.security.SecurityConfig;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -94,37 +99,23 @@ public class UserServiceIpm implements UserService {
 
     }
 
+
+
     @Override
-    public ResponseEntity<RepositoryObject> updateIfoUser(User newUser, long id) {
+    public ResponseEntity<RepositoryObject> updateInfoUser(UserUpdateRequest newInfoRequest, long userId){
         try {
-            // update from new user to old user, return if user cant not found
-            User updateUser = userRepository.findById(id).map(user -> {
-                user.setFirstName(newUser.getFirstName());
-                user.setLastName(newUser.getLastName());
-                user.setEmail(newUser.getEmail());
-                user.setPhone(newUser.getPhone());
-//                user.setAddress(newUser.getAddress());
-                user.setCity(newUser.getCity());
-                user.setCountry(newUser.getCountry());
-                user.setZipCode(newUser.getZipCode());
-                user.setZipCodeCity(newUser.getZipCodeCity());
-                // update Educator
-                if(user.getEducator() != null){
-                    user.getEducator().setDescription(newUser.getEducator().getDescription());
-                    user.getEducator().setBiography(newUser.getEducator().getBiography());
-                }
-                // update Student
-
-                return user;
-            }).orElse(null);
-
-            // save user at db if found user with param id
-            return updateUser != null ? ResponseEntity.status(HttpStatus.OK).body(new RepositoryObject("ok", "query user successfully", userRepository.save(updateUser))) : ResponseEntity.status(HttpStatus.NOT_FOUND).body(new RepositoryObject("failed", "cant not user with id= " + id, ""));
-        } catch (DataAccessException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new RepositoryObject("err", e.getMessage(), ""));
+            Optional<User> userOptional = userRepository.findById(userId);
+            if(userOptional.isPresent()){
+                User user = userOptional.get();
+                UserUpdateRequestMapper.INSTANCE.updateUser(user,newInfoRequest);
+                var response = userRepository.save(user);
+                return Response.resultOk(response);
+            }
+            return Response.resultFail();
+        } catch (Exception e) {
+            return Response.resultError(e.getMessage());
         }
     }
-
     @Override
     public ResponseEntity<RepositoryObject> updatePassUser(User newUser, long id) {
         try {
@@ -174,7 +165,7 @@ public class UserServiceIpm implements UserService {
     }
 
     @Override
-    public ResponseEntity<RepositoryObject> changePassword(long idUser, String oldPassword, String newPassword) {
+    public ResponseEntity<RepositoryObject> changePassword(long idUser, String oldPassword, String newPassword, HttpServletRequest httpServletRequest) {
         Optional<User> userOptional = userRepository.findById(idUser);
         try {
             // nếu id hợp lệ và đúng password thì cho phép đổi mật khẩu

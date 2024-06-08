@@ -82,4 +82,23 @@ public class RoleServiceIpm implements RoleService {
             return Response.result(HttpStatus.NOT_FOUND, Status.FAILED, CAN_NOT_FOUND + id);
         }
     }
+
+    @Override
+    public ResponseEntity<RepositoryObject> toggleRole(int roleId) {
+        try {
+            Optional<Role> roleOptional = repository.findById(roleId);
+            if(roleOptional.isPresent()){
+                Role role = roleOptional.get();
+
+                boolean isAllow = role.isAllow();
+
+                role.setAllow(!isAllow);
+                var response = repository.save(role);
+                return Response.resultOk(response);
+            }
+            return Response.resultFail();
+        } catch (Exception e) {
+            return Response.resultError(e.getMessage());
+        }
+    }
 }

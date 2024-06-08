@@ -6,7 +6,6 @@ import com.app.course.models.Section;
 import com.app.course.models.Unit;
 import com.app.course.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -41,7 +40,7 @@ public class SectionServiceIpm implements SectionService {
     @Override
     public ResponseEntity<RepositoryObject> getSectionByUnitId(int id) {
         try {
-            var response = repository.findByUnitId(id);
+            var response = repository.findByUnitIdOrderByNumberSection(id);
             return Response.resultOk(response);
         } catch (Exception e) {
             return Response.resultError(e.getMessage());

@@ -18,12 +18,6 @@ public class Student {
     @JoinColumn(name = "account_id")
     private User user;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
-    private Set<Buy> buys;
-    @JsonIgnore
-    @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
-    private Set<Rate> rates;
     /*  SET COLUM  */
     private int level;
     private String experience;
@@ -35,9 +29,8 @@ public class Student {
         setUser(user);
     }
 
-    public Student(User user, Set<Buy> buys, int level, String experience) {
+    public Student(User user, int level, String experience) {
         this.user = user;
-        this.buys = buys;
         this.level = level;
         this.experience = experience;
     }
@@ -56,14 +49,6 @@ public class Student {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Set<Buy> getBuys() {
-        return buys;
-    }
-
-    public void setBuys(Set<Buy> buys) {
-        this.buys = buys;
     }
 
     public int getLevel() {

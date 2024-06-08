@@ -55,10 +55,12 @@ public class Course {
     // -------set colum-------
     @Column(columnDefinition = "LONGTEXT")
     private String summary;  // Tóm tắt khóa học
+    @Column(columnDefinition = "LONGTEXT")
     private String clipDemo;
     private String img;
     private String name;
     private String title;
+    @Column(columnDefinition = "LONGTEXT")
     private String description;
     private String price;
 

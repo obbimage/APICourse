@@ -11,7 +11,9 @@ import java.io.Serializable;
 public class Educator implements Serializable {
     @Id
     private long id; // using the same primary key as User
+    @Column(columnDefinition = "LONGTEXT")
     private String biography;
+    @Column(columnDefinition = "LONGTEXT")
     private String description;
     @JsonIgnore
     @OneToOne

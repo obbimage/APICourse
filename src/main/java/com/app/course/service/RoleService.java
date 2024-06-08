@@ -12,4 +12,5 @@ public interface RoleService {
     ResponseEntity<RepositoryObject> insertRole(Role role);
     ResponseEntity<RepositoryObject> updateRoleById(Role newRole, int id);
     ResponseEntity<RepositoryObject> deleteRoleById(int id);
+    ResponseEntity<RepositoryObject> toggleRole(int roleId);
 }

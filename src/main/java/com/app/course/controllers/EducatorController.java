@@ -1,6 +1,7 @@
 package com.app.course.controllers;
 
 import com.app.course.config.Constants;
+import com.app.course.models.Educator;
 import com.app.course.models.User;
 import com.app.course.repository.RepositoryObject;
 import com.app.course.security.user.UserSecurityService;
@@ -27,6 +28,10 @@ public class EducatorController {
         return  educatorService.getEducatorById(id);
     }
 
+    @PutMapping("/update/{educatorId}")
+    public ResponseEntity<RepositoryObject> updateEducator(@PathVariable long educatorId, @RequestBody Educator educator){
+        return educatorService.updateEducator(educator,educatorId);
+    }
     @DeleteMapping("/{id}")
     public ResponseEntity<RepositoryObject> deleteEducatorById(@PathVariable long id){
         return  educatorService.deleteEducatorById(id);

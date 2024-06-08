@@ -5,6 +5,7 @@ import com.app.course.config.Constants;
 import com.app.course.models.User;
 import com.app.course.repository.Response;
 import com.app.course.repository.Status;
+import com.app.course.repository.UserRepository;
 import com.app.course.security.PayloadLogin;
 import com.app.course.security.jwt.JwtAuthenticationFilter;
 import com.app.course.security.jwt.JwtTokenProvider;
@@ -24,6 +25,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @Slf4j
 @CrossOrigin("*")
 @RestController
@@ -35,70 +38,89 @@ public class AuthController {
     private JwtTokenProvider jwtTokenProvider;
     @Autowired
     private UserSecurityService userSecurityService;
-
+    @Autowired
+    private UserRepository userRepository;
     public AuthController(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
 
+
+
     public ResponseEntity<?> login(LoginRequest loginRequest, String role, HttpServletRequest request) {
 
         try {
-            /* ============= login with token request ================*/
-            String jwtRequest = JwtAuthenticationFilter.getJwtFromRequest(request);
-            System.out.println(jwtTokenProvider.validateToken(jwtRequest));
-            System.out.println(jwtRequest);
-            // kiểm tra request có jwt hay không
-            // nếu có và hợp lệ trả về thông tin user dựa trên jwt
-            if (StringUtils.hasText(jwtRequest) && jwtTokenProvider.validateToken(jwtRequest)) {
-                String  userName = jwtTokenProvider.getUserNameFromJWT(jwtRequest);
-                UserSecurity    userSecurity = (UserSecurity) userSecurityService.loadUserByUsername(userName);
-                PayloadLogin payloadLogin = new PayloadLogin( userSecurity.getUser(), jwtRequest);
-                if(userSecurity != null) {
-                    return Response.result(HttpStatus.OK, Status.OK, AlertQuery.QUERY_SUCCESS, payloadLogin);
-                }
+
+//            /* ============= login with token request ================*/
+//            String jwtRequest = JwtAuthenticationFilter.getJwtFromRequest(request);
+//            System.out.println(jwtTokenProvider.validateToken(jwtRequest));
+//            System.out.println(jwtRequest);
+//            // kiểm tra request có jwt hay không
+//            // nếu có và hợp lệ trả về thông tin user dựa trên jwt
+//            if (StringUtils.hasText(jwtRequest) && jwtTokenProvider.validateToken(jwtRequest)) {
+//                String userName = jwtTokenProvider.getUserNameFromJWT(jwtRequest);
+//                UserSecurity userSecurity = (UserSecurity) userSecurityService.loadUserByUsername(userName);
+//                PayloadLogin payloadLogin = new PayloadLogin(userSecurity.getUser(), jwtRequest);
+//                if (userSecurity != null) {
+//                    return Response.result(HttpStatus.OK, Status.OK, AlertQuery.QUERY_SUCCESS, payloadLogin);
+//                }
+//            }
+            /* ============= login with user and password if login with jwt falie================*/
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.username,
+                            loginRequest.password
+                    )
+            );
+
+            // Kiểm tra xem vai trò của người dùng có hợp lệ không
+            if (!isValidRole(authentication, role)) {
+                // Nếu không, trả về lỗi 403 Forbidden
+                return Response.result(HttpStatus.FORBIDDEN, Status.FAILED, AlertQuery.CANT_NOT_FOUND);
             }
 
-            /* ============= login with user and password if login with jwt falie================*/
-                Authentication authentication = authenticationManager.authenticate(
-                        new UsernamePasswordAuthenticationToken(
-                                loginRequest.username,
-                                loginRequest.password
-                        )
-                );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                // Kiểm tra xem vai trò của người dùng có hợp lệ không
-                if (!isValidRole(authentication, role)) {
-                    // Nếu không, trả về lỗi 403 Forbidden
-                    return Response.result(HttpStatus.FORBIDDEN, Status.FAILED, AlertQuery.CANT_NOT_FOUND);
-                }
+            // chuyền thành mã jwt
+            String jwt = jwtTokenProvider.generateToken((UserSecurity) authentication.getPrincipal());
+            // data trả về cho client
+            PayloadLogin payloadLogin = new PayloadLogin(((UserSecurity) authentication.getPrincipal()).getUser(), jwt);
 
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-
-                // chuyền thành mã jwt
-                String jwt = jwtTokenProvider.generateToken((UserSecurity) authentication.getPrincipal());
-                // data trả về cho client
-                PayloadLogin payloadLogin = new PayloadLogin(((UserSecurity) authentication.getPrincipal()).getUser(), jwt);
-
-                return Response.result(HttpStatus.OK, Status.OK, AlertQuery.QUERY_SUCCESS, payloadLogin);
+            return Response.result(HttpStatus.OK, Status.OK, AlertQuery.QUERY_SUCCESS, payloadLogin);
         } catch (AuthenticationException e) {
             return Response.result(HttpStatus.FORBIDDEN, Status.FAILED, AlertQuery.CANT_NOT_FOUND);
         }
     }
 
-    @PostMapping("/admin")
-    public ResponseEntity<?> loginAdmin(@RequestBody LoginRequest loginRequest,HttpServletRequest request){
-        return login(loginRequest,Constants.ROLE_ADMIN,request);
+    @GetMapping("/infoUser")
+    public ResponseEntity<?> getUser(@RequestBody String jwt){
+        try {
+            UserSecurity userSecurity = (UserSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            long userId = userSecurity.getUser().getId();
+
+            Optional<User> userOptional = userRepository.findById(userId);
+
+            User user = userOptional.get();
+            return Response.resultOk(user);
+        } catch (Exception e) {
+            return Response.resultError(e.getMessage());
+        }
     }
+
+    @PostMapping("/admin")
+    public ResponseEntity<?> loginAdmin(@RequestBody LoginRequest loginRequest, HttpServletRequest request) {
+        return login(loginRequest, Constants.ROLE_ADMIN, request);
+    }
+
     @PostMapping("/educator")
-    public ResponseEntity<?> educator(@RequestBody LoginRequest loginRequest,HttpServletRequest request) {
-        return login(loginRequest, Constants.ROLE_EDUCATOR,request);
+    public ResponseEntity<?> educator(@RequestBody LoginRequest loginRequest, HttpServletRequest request) {
+        return login(loginRequest, Constants.ROLE_EDUCATOR, request);
     }
 
 
     @PostMapping("/user")
-    public ResponseEntity<?> user(@RequestBody LoginRequest loginRequest,HttpServletRequest request) {
-        return login(loginRequest, Constants.ROLE_USER,request);
+    public ResponseEntity<?> user(@RequestBody LoginRequest loginRequest, HttpServletRequest request) {
+        return login(loginRequest, Constants.ROLE_USER, request);
     }
 
 

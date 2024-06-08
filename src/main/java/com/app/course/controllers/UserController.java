@@ -1,9 +1,12 @@
 package com.app.course.controllers;
 
+import com.app.course.DTO.User.UserDTO;
+import com.app.course.DTO.User.UserUpdateRequest;
 import com.app.course.models.User;
 import com.app.course.payload.request.ChangePasswordRequest;
 import com.app.course.repository.RepositoryObject;
 import com.app.course.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,13 +38,13 @@ public class UserController {
     }
 
     @PutMapping("/updateInfo/{id}")
-    public ResponseEntity<RepositoryObject> updateInfoUser(@RequestBody User user, @PathVariable long id){
-        return service.updateIfoUser(user, id);
+    public ResponseEntity<RepositoryObject> updateInfoUser(@RequestBody UserUpdateRequest userRequest, @PathVariable long id){
+        return service.updateInfoUser(userRequest, id);
     }
 
     @PutMapping("/changePassword")
-    public ResponseEntity<RepositoryObject> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest){
-             return service.changePassword(changePasswordRequest.getId(),changePasswordRequest.getOldPassword(),changePasswordRequest.getNewPassword());
+    public ResponseEntity<RepositoryObject> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest, HttpServletRequest httpServletRequest){
+             return service.changePassword(changePasswordRequest.getId(),changePasswordRequest.getOldPassword(),changePasswordRequest.getNewPassword(), httpServletRequest);
     }
 
     @PostMapping("/updateAvatar/{id}")
