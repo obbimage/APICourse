@@ -3,6 +3,7 @@ package com.app.course.service;
 import com.app.course.DTO.User.UserDTO;
 import com.app.course.DTO.User.UserUpdateRequest;
 import com.app.course.config.AlertQuery;
+import com.app.course.config.Constants;
 import com.app.course.mapper.user.UserMapper;
 import com.app.course.mapper.user.UserUpdateRequestMapper;
 import com.app.course.models.FileUploadResponse;
@@ -193,5 +194,11 @@ public class UserServiceIpm implements UserService {
             log.error("changePassword:" + e.getMessage());
             return Response.result(HttpStatus.BAD_REQUEST, Status.FAILED, AlertQuery.ERR, e.getMessage());
         }
+    }
+
+    @Override
+    public ResponseEntity<RepositoryObject> getAllEducatorToUser() {
+        var educators = userRepository.findByRole(Constants.ROLE_EDUCATOR);
+        return Response.resultOk(educators);
     }
 }

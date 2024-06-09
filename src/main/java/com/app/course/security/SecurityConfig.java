@@ -1,6 +1,7 @@
 package com.app.course.security;
 
 
+import com.app.course.config.Constants;
 import com.app.course.security.jwt.JwtAuthenticationFilter;
 import com.app.course.security.user.UserSecurityService;
 import jakarta.servlet.DispatcherType;
@@ -103,14 +104,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                                 .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
 //                                .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-                                .requestMatchers("/error", "/educator/**", "/user/updateInfo/**", "user/**", "buy/**",
+                                .requestMatchers("/error", "/educator/**", "buy/**",
                                         "/auth/**", "user/changePassword/**","/course/**","user/updateInfo/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/register/**", "/auth/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/role/**","/language/**").permitAll()
                                 .requestMatchers("initData/**","/files/**","/studentWillLearn/**","/role/**","/subrole/**","/whoCourse/**","/unit/**","/section/**").permitAll()
+                                .requestMatchers("/user/educator").hasRole(Constants.ROLE_ADMIN)
                                 .requestMatchers("pay/**").permitAll()
                                 .requestMatchers(HttpMethod.POST,"rate/**").authenticated()
-                                .requestMatchers("course/buy/**").authenticated()
+                                .requestMatchers("course/buy/**", "/user/updateInfo/**").authenticated()
                                 .anyRequest().authenticated()   
                 )
                 .httpBasic(Customizer.withDefaults()); // đăng nhập với http

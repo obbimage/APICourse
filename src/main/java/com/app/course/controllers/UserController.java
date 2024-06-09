@@ -27,6 +27,11 @@ public class UserController {
         return service.getUserById(id);
     }
 
+    // lấy danh sách educator
+    @GetMapping("/educator")
+    public ResponseEntity<?> getAllEducator(){
+        return service.getAllEducatorToUser();
+    }
     @PostMapping("")
     public ResponseEntity<RepositoryObject> insertUser(@RequestBody User user){
         return service.insertUser(user);

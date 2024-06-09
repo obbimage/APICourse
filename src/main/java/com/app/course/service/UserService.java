@@ -21,5 +21,6 @@ public interface UserService {
     ResponseEntity<RepositoryObject> updatePassUser(User user, long id);
     ResponseEntity<RepositoryObject> updateAvatarUser(long id,MultipartFile file);
     ResponseEntity<RepositoryObject> changePassword(long idUser, String oldPassword, String newPassword, HttpServletRequest httpServletRequest);
-//    ResponseEntity<RepositoryObject> updateImg(long id, MultipartFile file);
+
+    ResponseEntity<RepositoryObject> getAllEducatorToUser();
 }
