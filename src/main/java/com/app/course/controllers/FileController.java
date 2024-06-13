@@ -1,14 +1,12 @@
 package com.app.course.controllers;
 
 import com.app.course.models.FileUploadResponse;
-import com.app.course.service.FileService;
+import com.app.course.service.file.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 
 @RestController
 @RequestMapping("/files")

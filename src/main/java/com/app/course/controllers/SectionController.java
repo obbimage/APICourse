@@ -1,12 +1,10 @@
 package com.app.course.controllers;
 
 import com.app.course.models.Section;
-import com.app.course.models.Unit;
 import com.app.course.repository.RepositoryObject;
-import com.app.course.service.SectionService;
+import com.app.course.service.section.SectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

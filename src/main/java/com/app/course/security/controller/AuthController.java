@@ -50,21 +50,6 @@ public class AuthController {
     public ResponseEntity<?> login(LoginRequest loginRequest, String role, HttpServletRequest request) {
 
         try {
-
-//            /* ============= login with token request ================*/
-//            String jwtRequest = JwtAuthenticationFilter.getJwtFromRequest(request);
-//            System.out.println(jwtTokenProvider.validateToken(jwtRequest));
-//            System.out.println(jwtRequest);
-//            // kiểm tra request có jwt hay không
-//            // nếu có và hợp lệ trả về thông tin user dựa trên jwt
-//            if (StringUtils.hasText(jwtRequest) && jwtTokenProvider.validateToken(jwtRequest)) {
-//                String userName = jwtTokenProvider.getUserNameFromJWT(jwtRequest);
-//                UserSecurity userSecurity = (UserSecurity) userSecurityService.loadUserByUsername(userName);
-//                PayloadLogin payloadLogin = new PayloadLogin(userSecurity.getUser(), jwtRequest);
-//                if (userSecurity != null) {
-//                    return Response.result(HttpStatus.OK, Status.OK, AlertQuery.QUERY_SUCCESS, payloadLogin);
-//                }
-//            }
             /* ============= login with user and password if login with jwt falie================*/
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(

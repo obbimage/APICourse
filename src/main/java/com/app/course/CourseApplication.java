@@ -2,8 +2,9 @@ package com.app.course;
 
 import com.app.course.models.User;
 import com.app.course.repository.UserRepository;
+import com.app.course.security.SecurityConfig;
 import com.app.course.security.user.UserSecurityService;
-import com.app.course.service.UserService;
+import com.app.course.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -29,9 +30,10 @@ public class CourseApplication implements CommandLineRunner {
         if (!existAdmin) {
             User user = new User();
             user.setUsername("admin");
-            user.setPassword("12345678");
-
-            userSecurityService.registerAdmin(user);
+            user.setRole("ADMIN");
+            user.setEnabled(true);
+            user.setPassword(SecurityConfig.passwordEncoder().encode("12345678"));
+            userRepository.save(user);
         }
     }
 }

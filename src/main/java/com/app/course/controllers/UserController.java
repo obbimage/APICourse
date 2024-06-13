@@ -1,11 +1,10 @@
 package com.app.course.controllers;
 
-import com.app.course.DTO.User.UserDTO;
 import com.app.course.DTO.User.UserUpdateRequest;
 import com.app.course.models.User;
 import com.app.course.payload.request.ChangePasswordRequest;
 import com.app.course.repository.RepositoryObject;
-import com.app.course.service.UserService;
+import com.app.course.service.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +31,15 @@ public class UserController {
     public ResponseEntity<?> getAllEducator(){
         return service.getAllEducatorToUser();
     }
+    @GetMapping("/educator/page/{pageNumber}/{pageSize}")
+    public ResponseEntity<?> getAllEducator(@PathVariable int pageNumber, @PathVariable int pageSize){
+        return service.getAllEducatorToUser(pageNumber,pageSize);
+    }
+    @GetMapping("/educator/search/{search}/page/{pageNumber}/{pageSize}")
+    public ResponseEntity<?> getAllEducator(@PathVariable String search, @PathVariable int pageNumber, @PathVariable int pageSize){
+        return service.findEducators(search,pageSize,pageSize);
+    }
+
     @PostMapping("")
     public ResponseEntity<RepositoryObject> insertUser(@RequestBody User user){
         return service.insertUser(user);

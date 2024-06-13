@@ -86,7 +86,7 @@ public class SecurityConfig {
 
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Collections.singletonList("*"));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT","DELETE"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("*")); // thêm Access-Control-Allow-Origin vào header
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
@@ -105,15 +105,16 @@ public class SecurityConfig {
                                 .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
 //                                .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                                 .requestMatchers("/error", "/educator/**", "buy/**",
-                                        "/auth/**", "user/changePassword/**","/course/**","user/updateInfo/**").permitAll()
-                                .requestMatchers(HttpMethod.POST, "/register/**", "/auth/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/role/**","/language/**").permitAll()
-                                .requestMatchers("initData/**","/files/**","/studentWillLearn/**","/role/**","/subrole/**","/whoCourse/**","/unit/**","/section/**").permitAll()
-                                .requestMatchers("/user/educator").hasRole(Constants.ROLE_ADMIN)
-                                .requestMatchers("pay/**").permitAll()
-                                .requestMatchers(HttpMethod.POST,"rate/**").authenticated()
+                                        "/auth/**", "user/changePassword/**", "/course/**", "user/updateInfo/**").permitAll()
+                                .requestMatchers(HttpMethod.POST,  "/auth/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/role/**", "/language/**").permitAll()
+                                .requestMatchers("initData/**", "/files/**", "/studentWillLearn/**", "/role/**", "/subrole/**", "/whoCourse/**", "/unit/**", "/section/**").permitAll()
+                                //
+                                .requestMatchers("/user/educator").hasAnyAuthority(Constants.ROLE_ADMIN)
+                                .requestMatchers("/register/**","pay/**").permitAll()
+                                .requestMatchers(HttpMethod.POST, "rate/**").authenticated()
                                 .requestMatchers("course/buy/**", "/user/updateInfo/**").authenticated()
-                                .anyRequest().authenticated()   
+                                .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults()); // đăng nhập với http
 //                .formLogin(Customizer.withDefaults()); // Đăng nhập với form

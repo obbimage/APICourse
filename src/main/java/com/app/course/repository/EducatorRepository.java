@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface EducatorRepository extends JpaRepository<Educator,Long> {
     List<Educator> findByUserId(long id);
+
 }

@@ -2,7 +2,7 @@ package com.app.course.controllers;
 
 import com.app.course.models.Question;
 import com.app.course.repository.RepositoryObject;
-import com.app.course.service.QuestionService;
+import com.app.course.service.question.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

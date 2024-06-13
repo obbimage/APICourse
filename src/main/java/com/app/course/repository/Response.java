@@ -34,6 +34,11 @@ public class Response {
                 new RepositoryObject(Status.FAILED,AlertQuery.CANT_NOT_FOUND)
         );
     }
+    public static ResponseEntity<RepositoryObject> resultFail(String message){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new RepositoryObject(Status.FAILED,message)
+        );
+    }
 
     public static ResponseEntity<RepositoryObject> resultError(String message){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(

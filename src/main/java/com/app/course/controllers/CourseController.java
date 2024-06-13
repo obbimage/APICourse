@@ -3,11 +3,10 @@ package com.app.course.controllers;
 import com.app.course.models.Course;
 import com.app.course.models.StudentWillLearn;
 import com.app.course.repository.RepositoryObject;
-import com.app.course.service.CourseService;
+import com.app.course.service.course.CourseService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

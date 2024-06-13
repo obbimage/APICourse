@@ -1,7 +1,7 @@
 package com.app.course.controllers;
 
 import com.app.course.models.WhoCourse;
-import com.app.course.service.WhoCourseService;
+import com.app.course.service.whoseCourse.WhoCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

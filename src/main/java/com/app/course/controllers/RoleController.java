@@ -2,7 +2,7 @@ package com.app.course.controllers;
 
 import com.app.course.models.Role;
 import com.app.course.repository.RepositoryObject;
-import com.app.course.service.RoleService;
+import com.app.course.service.role.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

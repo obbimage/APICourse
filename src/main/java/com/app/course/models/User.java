@@ -3,12 +3,16 @@ package com.app.course.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "user")
@@ -39,12 +43,14 @@ public class User implements Serializable {
     )
     private Set<RoleUser> roleUsers = new HashSet<>();
 
-
+    @Column(nullable = false)
+    private boolean enabled = false;
     private String firstName;
     private String lastName;
     private String avatar;
     @Column(nullable = false)
     private String role;
+    @Column(unique = true)
     private String email;
     private String phone;
     private String address;
@@ -54,22 +60,21 @@ public class User implements Serializable {
     private String zipCode; // mã bữu chính
 
     private String zipCodeCity;
-    public User() {
-    }
-
-    public User(Educator educator, Student student, String username, String password, String firstName, String lastName, String avatar, String role, String email, String phone, String address) {
-        this.educator = educator;
-        this.student = student;
-        this.username = username;
-        this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.avatar = avatar;
-        this.role = role;
-        this.email = email;
-        this.phone = phone;
-        this.address = address;
-    }
+//    public User() {
+//
+//    public User(Educator educator, Student student, String username, String password, String firstName, String lastName, String avatar, String role, String email, String phone, String address) {
+//        this.educator = educator;
+//        this.student = student;
+//        this.username = username;
+//        this.password = password;
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.avatar = avatar;
+//        this.role = role;
+//        this.email = email;
+//        this.phone = phone;
+//        this.address = address;
+//    }
 
     public  void createEducator(){
         Educator educator1  = new Educator(this);
@@ -79,149 +84,149 @@ public class User implements Serializable {
         Student student1 = new Student(this);
         setStudent(student1);
     }
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Educator getEducator() {
-        return educator;
-    }
-
-    public void setEducator(Educator educator) {
-        this.educator = educator;
-        this.educator.setUser(this);
-    }
-
-    public Set<RoleUser> getRoleUsers() {
-        return roleUsers;
-    }
-
-    public void setRoleUsers(Set<RoleUser> roleUsers) {
-        this.roleUsers = roleUsers;
-    }
-
-    public Student getStudent() {
-        return student;
-    }
-
-    public void setStudent(Student student) {
-        this.student = student;
-        this.student.setUser(this);
-    }
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public Set<Course> getCourses() {
-        return courses;
-    }
-
-    public void setCourses(Set<Course> courses) {
-        this.courses = courses;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public String getZipCodeCity() {
-        return zipCodeCity;
-    }
-
-    public void setZipCodeCity(String zipCodeCity) {
-        this.zipCodeCity = zipCodeCity;
-    }
+//    public long getId() {
+//        return id;
+//    }
+//
+//    public void setId(long id) {
+//        this.id = id;
+//    }
+//
+//    public Educator getEducator() {
+//        return educator;
+//    }
+//
+//    public void setEducator(Educator educator) {
+//        this.educator = educator;
+//        this.educator.setUser(this);
+//    }
+//
+//    public Set<RoleUser> getRoleUsers() {
+//        return roleUsers;
+//    }
+//
+//    public void setRoleUsers(Set<RoleUser> roleUsers) {
+//        this.roleUsers = roleUsers;
+//    }
+//
+//    public Student getStudent() {
+//        return student;
+//    }
+//
+//    public void setStudent(Student student) {
+//        this.student = student;
+//        this.student.setUser(this);
+//    }
+//    public String getUsername() {
+//        return username;
+//    }
+//
+//    public void setUsername(String username) {
+//        this.username = username;
+//    }
+//
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
+//
+//    public String getRole() {
+//        return role;
+//    }
+//
+//    public void setRole(String role) {
+//        this.role = role;
+//    }
+//
+//    public String getAvatar() {
+//        return avatar;
+//    }
+//
+//    public void setAvatar(String avatar) {
+//        this.avatar = avatar;
+//    }
+//
+//    public String getFirstName() {
+//        return firstName;
+//    }
+//
+//    public void setFirstName(String firstName) {
+//        this.firstName = firstName;
+//    }
+//
+//    public String getLastName() {
+//        return lastName;
+//    }
+//
+//    public void setLastName(String lastName) {
+//        this.lastName = lastName;
+//    }
+//
+//    public String getEmail() {
+//        return email;
+//    }
+//
+//    public void setEmail(String email) {
+//        this.email = email;
+//    }
+//
+//    public String getPhone() {
+//        return phone;
+//    }
+//
+//    public void setPhone(String phone) {
+//        this.phone = phone;
+//    }
+//
+//    public String getAddress() {
+//        return address;
+//    }
+//
+//    public void setAddress(String address) {
+//        this.address = address;
+//    }
+//
+//    public Set<Course> getCourses() {
+//        return courses;
+//    }
+//
+//    public void setCourses(Set<Course> courses) {
+//        this.courses = courses;
+//    }
+//
+//    public String getCity() {
+//        return city;
+//    }
+//
+//    public void setCity(String city) {
+//        this.city = city;
+//    }
+//
+//    public String getCountry() {
+//        return country;
+//    }
+//
+//    public void setCountry(String country) {
+//        this.country = country;
+//    }
+//
+//    public String getZipCode() {
+//        return zipCode;
+//    }
+//
+//    public void setZipCode(String zipCode) {
+//        this.zipCode = zipCode;
+//    }
+//
+//    public String getZipCodeCity() {
+//        return zipCodeCity;
+//    }
+//
+//    public void setZipCodeCity(String zipCodeCity) {
+//        this.zipCodeCity = zipCodeCity;
+//    }
 
 }
