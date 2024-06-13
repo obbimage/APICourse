@@ -122,7 +122,8 @@ public class UserSecurityService implements UserDetailsService {
         User user = verificationToken.getUser();
         user.setEnabled(true);
         var response = userRepository.save(user);
-        String successHtml = "<html><body><h1> Kích hoạt tài khoản thành công </h1></body></html>";
+        String username = user.getUsername();
+        String successHtml =String.format("<html><body><h1> Kích hoạt tài khoản %s thành công </h1></body></html>",username);
         return new ResponseEntity<>(successHtml,headers, HttpStatus.OK);
     }
 

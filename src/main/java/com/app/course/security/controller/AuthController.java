@@ -22,6 +22,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,13 +51,19 @@ public class AuthController {
     public ResponseEntity<?> login(LoginRequest loginRequest, String role, HttpServletRequest request) {
 
         try {
-            /* ============= login with user and password if login with jwt falie================*/
+            /* ============= login with user and password if login with jwt failed================*/
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             loginRequest.username,
                             loginRequest.password
                     )
             );
+
+            // check if the user enable
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            if(!userDetails.isEnabled()){
+                return Response.resultFail("Tài khoản chưa được kích hoạt");
+            }
 
             // Kiểm tra xem vai trò của người dùng có hợp lệ không
             if (!isValidRole(authentication, role)) {
