@@ -1,7 +1,6 @@
 package com.app.course.vnPay;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.stereotype.Component;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -11,31 +10,38 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
-@Component
-public class VNPayConfig {
-    public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_Returnurl = "/vnpay-payment";
-    public static String vnp_TmnCode = "";
-    public static String vnp_HashSecret = "";
-    public static String vnp_apiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
+public class Config {
+   public static String vnp_Version = "2.1.0";
+   public static String vnp_Command = "pay";
 
-    public static String md5(String message) {
-        String digest = null;
-        try {
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] hash = md.digest(message.getBytes("UTF-8"));
-            StringBuilder sb = new StringBuilder(2 * hash.length);
-            for (byte b : hash) {
-                sb.append(String.format("%02x", b & 0xff));
-            }
-            digest = sb.toString();
-        } catch (UnsupportedEncodingException ex) {
-            digest = "";
-        } catch (NoSuchAlgorithmException ex) {
-            digest = "";
-        }
-        return digest;
+    public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+    public static String vnp_ReturnUrl = "http://localhost:8080/paymentVnPayInfo";
+    public static String vnp_TmnCode = "9E0Q1EGD";
+    public static String secretKey = "179S3JH0QY66YSMIKSJ0PQG4PIDMY5WH";
+    public static String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
+
+
+    public static void setVnp_ReturnUrl(long userId, long courseId){
+        vnp_ReturnUrl += String.format("?user_id=%d&course_id=%s",userId,courseId);
     }
+
+//    public static String md5(String message) {
+//        String digest = null;
+//        try {
+//            MessageDigest md = MessageDigest.getInstance("MD5");
+//            byte[] hash = md.digest(message.getBytes("UTF-8"));
+//            StringBuilder sb = new StringBuilder(2 * hash.length);
+//            for (byte b : hash) {
+//                sb.append(String.format("%02x", b & 0xff));
+//            }
+//            digest = sb.toString();
+//        } catch (UnsupportedEncodingException ex) {
+//            digest = "";
+//        } catch (NoSuchAlgorithmException ex) {
+//            digest = "";
+//        }
+//        return digest;
+//    }
 
     public static String Sha256(String message) {
         String digest = null;
@@ -73,9 +79,10 @@ public class VNPayConfig {
                 sb.append("&");
             }
         }
-        return hmacSHA512(vnp_HashSecret,sb.toString());
+        return hmacSHA512(secretKey,sb.toString());
     }
 
+    // mã hóa
     public static String hmacSHA512(final String key, final String data) {
         try {
 
@@ -104,7 +111,7 @@ public class VNPayConfig {
         try {
             ipAdress = request.getHeader("X-FORWARDED-FOR");
             if (ipAdress == null) {
-                ipAdress = request.getLocalAddr();
+                ipAdress = request.getRemoteAddr();
             }
         } catch (Exception e) {
             ipAdress = "Invalid IP:" + e.getMessage();
@@ -122,3 +129,4 @@ public class VNPayConfig {
         return sb.toString();
     }
 }
+

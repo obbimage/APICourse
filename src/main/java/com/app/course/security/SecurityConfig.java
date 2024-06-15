@@ -111,7 +111,7 @@ public class SecurityConfig {
                                 .requestMatchers("initData/**", "/files/**", "/studentWillLearn/**", "/role/**", "/subrole/**", "/whoCourse/**", "/unit/**", "/section/**").permitAll()
                                 //
                                 .requestMatchers("/user/educator").hasAnyAuthority(Constants.ROLE_ADMIN)
-                                .requestMatchers("/register/**","pay/**").permitAll()
+                                .requestMatchers("/register/**","vnpay/**").permitAll()
                                 .requestMatchers(HttpMethod.POST, "rate/**").authenticated()
                                 .requestMatchers("course/buy/**", "/user/updateInfo/**").authenticated()
                                 .anyRequest().authenticated()
