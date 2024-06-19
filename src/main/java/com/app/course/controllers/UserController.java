@@ -4,6 +4,8 @@ import com.app.course.DTO.User.UserUpdateRequest;
 import com.app.course.models.User;
 import com.app.course.payload.request.ChangePasswordRequest;
 import com.app.course.repository.RepositoryObject;
+import com.app.course.repository.Response;
+import com.app.course.repository.UserRepository;
 import com.app.course.service.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserController {
     @Autowired
     private UserService service;
+    @Autowired
+    UserRepository userRepository;
     @GetMapping("")
     public ResponseEntity<RepositoryObject> getAllUser(){
         return service.getAllUser();
@@ -43,6 +47,11 @@ public class UserController {
     @PostMapping("")
     public ResponseEntity<RepositoryObject> insertUser(@RequestBody User user){
         return service.insertUser(user);
+    }
+
+    @PutMapping("")
+    public ResponseEntity<RepositoryObject> putUser(@RequestBody User user){
+        return Response.resultOk(userRepository.save(user));
     }
 
     @DeleteMapping("/{id}")
