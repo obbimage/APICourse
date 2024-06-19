@@ -2,6 +2,7 @@ package com.app.course.service.chat;
 
 import com.app.course.models.Chat;
 import com.app.course.models.Course;
+import com.app.course.models.Unit;
 import com.app.course.models.User;
 import com.app.course.repository.*;
 import com.app.course.security.user.UserSecurity;
@@ -18,7 +19,7 @@ import java.util.Optional;
 @Service
 public class ChatServiceIpm implements ChatService {
     private final String QUERY_SUCCESS = "QUERY RATE SUCCESSFULLY";
-    private final String CAN_NOT_FOUND = "CAN NOT FOUND RATE ";
+    private final String CANT_NOT_FOUND = "CAN NOT FOUND WITH ID=";
     @Autowired
     ChatRepository chatRepository;
     @Autowired
@@ -65,6 +66,18 @@ public class ChatServiceIpm implements ChatService {
         } catch (DataAccessException e) {
             return Response.result(HttpStatus.BAD_REQUEST, Status.ERR, e.getMessage());
         }
+
+    }
+
+    @Override
+    public ResponseEntity<RepositoryObject> updateChat(Chat newChat, int id) {
+        Chat updateChat = chatRepository.findById(id).map(item -> {
+            item.setStatus(newChat.isStatus());
+            return item;
+        }).orElse(null);
+        return updateChat != null ?
+                Response.result(HttpStatus.OK, Status.OK, QUERY_SUCCESS, chatRepository.save(updateChat)) :
+                Response.result(HttpStatus.NOT_FOUND, Status.FAILED, CANT_NOT_FOUND, "");
 
     }
 

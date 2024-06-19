@@ -28,4 +28,5 @@ public class Chat {
     private String content;
     private int enjoy;
     private int idFeedback;
+    private boolean status;
 }

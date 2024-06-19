@@ -1,6 +1,8 @@
 package com.app.course.controllers;
 
+import com.app.course.DTO.User.UserUpdateRequest;
 import com.app.course.models.Chat;
+import com.app.course.models.Unit;
 import com.app.course.repository.RepositoryObject;
 import com.app.course.service.chat.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,4 +32,8 @@ public class ChatController {
         return service.insertChat(chat, courseId);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<RepositoryObject> updateChat(@RequestBody Chat chat, @PathVariable int id){
+        return service.updateChat(chat,id);
+    }
 }
