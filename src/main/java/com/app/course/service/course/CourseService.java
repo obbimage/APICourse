@@ -52,4 +52,5 @@ public interface CourseService {
 
     ResponseEntity<RepositoryObject> setConfirmCourse(long courseId, boolean complete);
     ResponseEntity<RepositoryObject> getAllCourseByComplete(boolean complete);
+    ResponseEntity<RepositoryObject> getAllCourseByConfirm(boolean confirm);
 }

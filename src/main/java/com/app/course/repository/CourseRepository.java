@@ -12,6 +12,7 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
     List<Course> findByUserId(long id);
     List<Course> findByComplete(boolean complete);
     List<Course> findByCompleteAndConfirm(boolean complete, boolean allow);
+    List<Course> findByConfirm(boolean confirm);
     @Query("SELECT c FROM Course c ORDER BY STR_TO_DATE(c.dateUpload,'%d%m%y') ")
     Page<Course> findAllOrderDateUpload(Pageable pageable);
 

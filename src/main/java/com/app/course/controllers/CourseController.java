@@ -64,6 +64,11 @@ public class CourseController {
         return service.getCourseFromBuy(courseId);
     }
 
+    @GetMapping("/confirm/{confirm}")
+    public ResponseEntity<?> getConfirm(@PathVariable boolean confirm){
+        return service.getAllCourseByConfirm(confirm);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<RepositoryObject> deleteCourseById(@PathVariable long id) {
         return service.deleteCourseById(id);

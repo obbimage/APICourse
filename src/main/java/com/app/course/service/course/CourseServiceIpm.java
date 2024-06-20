@@ -306,11 +306,11 @@ public class CourseServiceIpm implements CourseService {
         Course course = courseOptional.get();
         course.setConfirm(confirm);
 
-        Optional<User> userOptional = userRepository.findByCourseId(courseId);
-        if(userOptional.isPresent()){
-            User user = userOptional.get();
-            emailService.sendEmail(user.getEmail(),"Duyệt khóa học", "Khóa học " + course.getName() +" đã được duyệt");
-        }
+//        Optional<User> userOptional = userRepository.findByCourseId(courseId);
+//        if(userOptional.isPresent()){
+//            User user = userOptional.get();
+//            emailService.sendEmail(user.getEmail(),"Duyệt khóa học", "Khóa học " + course.getName() +" đã được duyệt");
+//        }
 
         return Response.resultOk(courseRepository.save(course));
     }
@@ -318,6 +318,12 @@ public class CourseServiceIpm implements CourseService {
     @Override
     public ResponseEntity<RepositoryObject> getAllCourseByComplete(boolean complete) {
         var response = courseRepository.findByCompleteAndConfirm(complete,false);
+        return Response.resultOk(response);
+    }
+
+    @Override
+    public ResponseEntity<RepositoryObject> getAllCourseByConfirm(boolean confirm) {
+        var response = courseRepository.findByConfirm(confirm);
         return Response.resultOk(response);
     }
 
