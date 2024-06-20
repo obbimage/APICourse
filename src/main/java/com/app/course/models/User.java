@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -42,7 +43,7 @@ public class User implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "role_user_id")}
     )
     private Set<RoleUser> roleUsers = new HashSet<>();
-
+    private double wallet = 0;
     @Column(nullable = false)
     private boolean enabled = false;
     private String firstName;
@@ -60,21 +61,6 @@ public class User implements Serializable {
     private String zipCode; // mã bữu chính
 
     private String zipCodeCity;
-//    public User() {
-//
-//    public User(Educator educator, Student student, String username, String password, String firstName, String lastName, String avatar, String role, String email, String phone, String address) {
-//        this.educator = educator;
-//        this.student = student;
-//        this.username = username;
-//        this.password = password;
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.avatar = avatar;
-//        this.role = role;
-//        this.email = email;
-//        this.phone = phone;
-//        this.address = address;
-//    }
 
     public  void createEducator(){
         Educator educator1  = new Educator(this);

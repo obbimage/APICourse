@@ -20,6 +20,10 @@ public class UserController {
     public ResponseEntity<RepositoryObject> getAllUser(){
         return service.getAllUser();
     }
+    @GetMapping("/wallet")
+    public ResponseEntity<RepositoryObject> getWallet(){
+        return service.getWallet();
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<RepositoryObject> getUserById(@PathVariable long id){

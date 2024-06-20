@@ -74,6 +74,11 @@ public class CourseController {
         return service.updateCourseById(course, id);
     }
 
+    @PutMapping("/confirm")
+    public ResponseEntity<?> setConfirm(@RequestParam(value = "course_id") long courseId, @RequestParam(value = "confirm") boolean confirm){
+        return service.setConfirmCourse(courseId,confirm);
+    }
+
     @PostMapping("")
     public ResponseEntity<RepositoryObject> insertCourse(@RequestBody Course course) {
         return service.insertCourse(course);

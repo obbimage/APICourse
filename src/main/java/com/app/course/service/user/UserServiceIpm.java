@@ -8,6 +8,7 @@ import com.app.course.models.FileUploadResponse;
 import com.app.course.models.User;
 import com.app.course.repository.*;
 import com.app.course.security.SecurityConfig;
+import com.app.course.security.user.UserSecurity;
 import com.app.course.service.file.FileService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticatedPrincipal;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -224,6 +228,17 @@ public class UserServiceIpm implements UserService {
             var educators = userRepository.searchUserByIdOrNameOrPhone(keyword,pageable);
             return Response.resultOk(educators);
         }
+    }
+
+    @Override
+    public ResponseEntity<RepositoryObject> getWallet() {
+        UserSecurity userSecurity = (UserSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        long userId = userSecurity.getUser().getId();
+
+        Optional<User> userOptional = userRepository.findById(userId);
+        User user = userOptional.get();
+
+        return Response.resultOk(user.getWallet());
     }
 
 }

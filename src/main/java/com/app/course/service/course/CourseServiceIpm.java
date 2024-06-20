@@ -9,6 +9,7 @@ import com.app.course.repository.*;
 import com.app.course.security.jwt.JwtTokenProvider;
 import com.app.course.security.user.UserSecurity;
 import com.app.course.security.user.UserSecurityService;
+import com.app.course.service.email.EmailService;
 import com.app.course.service.file.FileService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -47,7 +48,8 @@ public class CourseServiceIpm implements CourseService {
     private JwtTokenProvider jwtTokenProvider;
     @Autowired
     private UserSecurityService userSecurityService;
-
+    @Autowired
+    private EmailService emailService;
     public CourseServiceIpm(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
@@ -294,6 +296,23 @@ public class CourseServiceIpm implements CourseService {
         } catch (Exception e) {
            return Response.resultError(e.getMessage());
         }
+    }
+
+    @Override
+    public ResponseEntity<RepositoryObject> setConfirmCourse(long courseId, boolean confirm) {
+        Optional<Course> courseOptional = courseRepository.findById(courseId);
+        if(courseOptional.isEmpty())
+            return Response.resultFail();
+        Course course = courseOptional.get();
+        course.setConfirm(confirm);
+
+        Optional<User> userOptional = userRepository.findByCourseId(courseId);
+        if(userOptional.isPresent()){
+            User user = userOptional.get();
+            emailService.sendEmail(user.getEmail(),"Duyệt khóa học", "Khóa học " + course.getName() +" đã được duyệt");
+        }
+
+        return Response.resultOk(courseRepository.save(course));
     }
 
     @Override

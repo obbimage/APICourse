@@ -3,10 +3,15 @@ package com.app.course.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "course")
@@ -62,198 +67,12 @@ public class Course {
     private String title;
     @Column(columnDefinition = "LONGTEXT")
     private String description;
-    private String price;
+    private long price;
 
     private String dateUpload;
     private String  dateUpdate;
     private boolean confirm;
     private boolean complete; // khóa học đã xong tạo hay chưa
 
-    public Course() {
-    }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public Set<Unit> getUnit() {
-        return unit;
-    }
-
-    public void setUnit(Set<Unit> unit) {
-        this.unit = unit;
-    }
-
-    public Language getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(Language language) {
-        this.language = language;
-    }
-
-
-    public List<LevelRequire> getLevelRequires() {
-        return levelRequires;
-    }
-
-    public void setLevelRequires(List<LevelRequire> levelRequires) {
-        this.levelRequires = levelRequires;
-    }
-
-    public Set<Test> getTest() {
-        return test;
-    }
-
-    public void setTest(Set<Test> test) {
-        this.test = test;
-    }
-
-    public Set<Buy> getBuys() {
-        return buys;
-    }
-
-    public void setBuys(Set<Buy> buys) {
-        this.buys = buys;
-    }
-
-    public Set<Rate> getRates() {
-        return rates;
-    }
-
-    public void setRates(Set<Rate> rates) {
-        this.rates = rates;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public SubRole getSubRole() {
-        return subRole;
-    }
-
-    public void setSubRole(SubRole subRole) {
-        this.subRole = subRole;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String getClipDemo() {
-        return clipDemo;
-    }
-
-    public void setClipDemo(String clipDemo) {
-        this.clipDemo = clipDemo;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    public String getDateUpload() {
-        return dateUpload;
-    }
-
-    public void setDateUpload(String dateUpload) {
-        this.dateUpload = dateUpload;
-    }
-
-    public String getDateUpdate() {
-        return dateUpdate;
-    }
-
-    public void setDateUpdate(String dateUpdate) {
-        this.dateUpdate = dateUpdate;
-    }
-
-    public boolean isConfirm() {
-        return confirm;
-    }
-
-    public void setConfirm(boolean confirm) {
-        this.confirm = confirm;
-    }
-
-    public List<StudentWillLearn> getStudentWillLearns() {
-        return studentWillLearns;
-    }
-
-    public void setStudentWillLearns(List<StudentWillLearn> studentWillLearns) {
-        this.studentWillLearns = studentWillLearns;
-    }
-
-    public List<WhoCourse> getWhoCourses() {
-        return whoCourses;
-    }
-
-    public void setWhoCourses(List<WhoCourse> whoCourses) {
-        this.whoCourses = whoCourses;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
-
-    public boolean getComplete() {
-        return complete;
-    }
-
-    public void setComplete(boolean complete) {
-        this.complete = complete;
-    }
 }

@@ -25,4 +25,5 @@ public interface UserService {
     ResponseEntity<RepositoryObject> getAllEducatorToUser(int pageNumber, int pageSize);
     // trả vê Educator thảo một trong các điều kiện
     ResponseEntity<RepositoryObject> findEducators(String keyWord, int pageNumber, int pageSize);
+    ResponseEntity<RepositoryObject> getWallet();
 }

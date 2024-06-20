@@ -1,6 +1,7 @@
 package com.app.course.vnPay;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -11,18 +12,30 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 public class Config {
+
+//    @Value("${server.url}")
+    private static String server_url = "http://localhost:8080";
+
    public static String vnp_Version = "2.1.0";
    public static String vnp_Command = "pay";
 
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_ReturnUrl = "http://localhost:8080/paymentVnPayInfo";
+    public static String vnp_ReturnUrl = "http://localhost:8080/vnpay/info";
     public static String vnp_TmnCode = "9E0Q1EGD";
     public static String secretKey = "179S3JH0QY66YSMIKSJ0PQG4PIDMY5WH";
     public static String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
 
 
+
+    private static String urlPara(long userId,long courseId){
+        return String.format("user_id=%d&course_id=%s",userId,courseId);
+    }
+
     public static void setVnp_ReturnUrl(long userId, long courseId){
-        vnp_ReturnUrl += String.format("?user_id=%d&course_id=%s",userId,courseId);
+        vnp_ReturnUrl += String.format("?%s",urlPara(userId,courseId));
+    }
+    public static void setVnp_ReturnUrl(String url, long userId, long courseId){
+        vnp_ReturnUrl = String.format("%s?url=%s&%s",url,vnp_ReturnUrl,urlPara(userId,courseId));
     }
 
 //    public static String md5(String message) {

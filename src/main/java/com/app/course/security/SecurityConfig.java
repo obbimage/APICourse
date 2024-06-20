@@ -111,9 +111,9 @@ public class SecurityConfig {
                                 .requestMatchers("initData/**", "/files/**", "/studentWillLearn/**", "/role/**", "/subrole/**", "/whoCourse/**", "/unit/**", "/section/**").permitAll()
                                 //
                                 .requestMatchers("/user/educator").hasAnyAuthority(Constants.ROLE_ADMIN)
-                                .requestMatchers("/register/**","vnpay/**").permitAll()
+                                .requestMatchers("/register/**","/vnpay/**","vnpay/paymentVnPayInfo").permitAll()
                                 .requestMatchers(HttpMethod.POST, "rate/**").authenticated()
-                                .requestMatchers("course/buy/**", "/user/updateInfo/**").authenticated()
+                                .requestMatchers("course/buy/**", "/user/updateInfo/**","/orderDetail/**","/order/**").authenticated()
                                 .anyRequest().authenticated()
                 )
                 .httpBasic(Customizer.withDefaults()); // đăng nhập với http
