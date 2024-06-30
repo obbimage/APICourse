@@ -29,4 +29,6 @@ public class Chat {
     private int enjoy;
     private int idFeedback;
     private boolean status;
+    private String unit;
+    private String systemName;
 }
